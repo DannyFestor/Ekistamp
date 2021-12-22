@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Prefecture extends Model
+class City extends Model
 {
     protected $fillable = [
+        'prefecture_id',
         'name',
         'romaji',
         'hiragana',
@@ -14,8 +16,8 @@ class Prefecture extends Model
         'katakana_half',
     ];
 
-    public function cities()
+    public function prefecture()
     {
-        return $this->hasMany(City::class);
+        return $this->belongsTo(Prefecture::class);
     }
 }
