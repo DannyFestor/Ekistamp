@@ -36,4 +36,13 @@ class UserFactory extends Factory
             ];
         });
     }
+
+    public function deleted()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'deleted_at' => now(),
+            ];
+        });
+    }
 }
