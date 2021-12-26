@@ -17,9 +17,9 @@ class StreetFactory extends Factory
     public function definition()
     {
         return [
-            "prefecture_id" => Prefecture::inRandomOrder()->first(),
-            "city_id" => City::inRandomOrder()->first(),
-            "postcode_id" => Postcode::inRandomOrder()->first(),
+            "prefecture_id" => Prefecture::inRandomOrder()->first()->id,
+            "city_id" => City::inRandomOrder()->first()->id,
+            "postcode_id" => Postcode::inRandomOrder()->first()->id,
             "name" => implode("-", $this->faker->unique()->words(3)),
             "romaji" => implode("-", $this->faker->unique()->words(3)),
             "hiragana" => implode("-", $this->faker->unique()->words(3)),

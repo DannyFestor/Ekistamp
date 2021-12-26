@@ -17,9 +17,9 @@ class StationFactory extends Factory
     public function definition()
     {
         return [
-            "prefecture_id" => Prefecture::inRandomOrder()->first(),
-            "city_id" => City::inRandomOrder()->first(),
-            "street_id" => Street::inRandomOrder()->first(),
+            "prefecture_id" => Prefecture::inRandomOrder()->first()->id,
+            "city_id" => City::inRandomOrder()->first()->id,
+            "street_id" => Street::inRandomOrder()->first()->id,
             "name" => implode("-", $this->faker->unique()->words(3)),
             "hiragana" => implode("-", $this->faker->unique()->words(3)),
             "katakana" => implode("-", $this->faker->unique()->words(3)),

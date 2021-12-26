@@ -16,8 +16,8 @@ class LineFactory extends Factory
     public function definition()
     {
         return [
-            'prefecture_id' => Prefecture::inRandomOrder()->first(),
-            'company_id' => Company::inRandomOrder()->first(),
+            'prefecture_id' => Prefecture::inRandomOrder()->first()->id,
+            'company_id' => Company::inRandomOrder()->first()->id,
             'name' => implode('-', $this->faker->unique()->words(3)),
         ];
     }

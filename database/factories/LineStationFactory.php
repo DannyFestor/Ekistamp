@@ -16,8 +16,8 @@ class LineStationFactory extends Factory
     public function definition()
     {
         return [
-            "line_id" => Line::inRandomOrder()->first(),
-            "station_id" => Station::inRandomOrder()->first(),
+            "line_id" => Line::inRandomOrder()->first()->id,
+            "station_id" => Station::inRandomOrder()->first()->id,
             "order" => random_int(1, 50),
         ];
     }

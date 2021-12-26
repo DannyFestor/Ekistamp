@@ -54,4 +54,9 @@ class Station extends Model
     {
         return $this->hasMany(LineStation::class);
     }
+
+    public function stamps() : HasMany
+    {
+        return $this->hasMany(Stamp::class);
+    }
 }
