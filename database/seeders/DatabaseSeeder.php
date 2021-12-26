@@ -22,7 +22,6 @@ class DatabaseSeeder extends Seeder
             LineSeeder::class,
             PostcodeSeeder::class,
             StreetSeeder::class,
-            LineSeeder::class,
             StationSeeder1::class,
             StationSeeder2::class,
             StationSeeder3::class,

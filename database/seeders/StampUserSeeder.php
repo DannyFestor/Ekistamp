@@ -20,7 +20,7 @@ class StampUserSeeder extends Seeder
         $stamps = Stamp::all();
 
         foreach ($users as $user) {
-            $user->stamps->sync($stamps->random(random_int(10, 100))->pluck('id')->toArray());
+            $user->stamps()->sync($stamps->random(random_int(10, 100))->pluck('id')->toArray());
         }
     }
 }
