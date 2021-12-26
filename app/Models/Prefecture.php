@@ -29,4 +29,9 @@ class Prefecture extends Model
     {
         return $this->hasMany(Postcode::class);
     }
+
+    public function street() : HasMany
+    {
+        return $this->hasMany(Street::class);
+    }
 }

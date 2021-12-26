@@ -17,8 +17,8 @@ class PostcodeFactory extends Factory
         return [
             "prefecture_id" => Prefecture::inRandomOrder()->first()->id,
             "city_id" => City::inRandomOrder()->first()->id,
-            "post_code" => str_pad(random_int(1, 9999999), 7, "0", STR_PAD_LEFT),
-            "post_code_prefix" => str_pad(random_int(1, 999), 3, "0", STR_PAD_LEFT),
+            "postcode" => str_pad(random_int(1, 9999999), 7, "0", STR_PAD_LEFT),
+            "postcode_prefix" => str_pad(random_int(1, 999), 3, "0", STR_PAD_LEFT),
         ];
     }
 }

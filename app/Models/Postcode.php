@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Postcode extends Model
 {
@@ -27,5 +28,10 @@ class Postcode extends Model
     public function city() : BelongsTo
     {
         return $this->belongsTo(City::class);
+    }
+
+    public function street() : HasMany
+    {
+        return $this->hasMany(Street::class);
     }
 }

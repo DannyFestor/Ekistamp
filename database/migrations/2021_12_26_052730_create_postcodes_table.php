@@ -17,8 +17,8 @@ class CreatePostcodesTable extends Migration
             $table->id();
             $table->foreignId('prefecture_id')->references('id')->on('prefectures');
             $table->foreignId('city_id')->references('id')->on('cities');
-            $table->string('post_code');
-            $table->string('post_code_prefix');
+            $table->string('postcode');
+            $table->string('postcode_prefix');
             $table->timestamps();
         });
     }
