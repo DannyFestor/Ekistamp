@@ -25,4 +25,8 @@ class Prefecture extends Model
         return $this->hasMany(Line::class);
     }
 
+    public function postcodes() : HasMany
+    {
+        return $this->hasMany(Postcode::class);
+    }
 }

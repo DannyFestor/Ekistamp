@@ -22,4 +22,9 @@ class City extends Model
     {
         return $this->belongsTo(Prefecture::class);
     }
+
+    public function postcodes() : HasMany
+    {
+        return $this->hasMany(Postcode::class);
+    }
 }

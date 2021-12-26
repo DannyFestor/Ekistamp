@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Line;
 use Illuminate\Database\Seeder;
 
 class LineSeeder extends Seeder
