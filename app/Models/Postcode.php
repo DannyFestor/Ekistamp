@@ -30,7 +30,7 @@ class Postcode extends Model
         return $this->belongsTo(City::class);
     }
 
-    public function street() : HasMany
+    public function streets() : HasMany
     {
         return $this->hasMany(Street::class);
     }

@@ -5,21 +5,27 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Street extends Model
+use Psy\Util\Str;
+
+use function Symfony\Component\String\s;
+
+class Station extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'prefecture_id',
         'city_id',
-        'postcode_id',
+        'street_id',
         'name',
-        'romaji',
         'hiragana',
         'katakana',
         'katakana_half',
+        'romaji',
+        'memo',
+        'latitude',
+        'altitude',
     ];
 
     public function prefecture() : BelongsTo
@@ -32,13 +38,8 @@ class Street extends Model
         return $this->belongsTo(City::class);
     }
 
-    public function postcode() : BelongsTo
+    public function street() : BelongsTo
     {
-        return $this->belongsTo(Postcode::class);
-    }
-
-    public function stations() : HasMany
-    {
-        return $this->hasMany(Station::class);
+        return $this->belongsTo(Street::class);
     }
 }

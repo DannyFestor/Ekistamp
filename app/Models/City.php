@@ -28,8 +28,13 @@ class City extends Model
         return $this->hasMany(Postcode::class);
     }
 
-    public function street() : HasMany
+    public function streets() : HasMany
     {
         return $this->hasMany(Street::class);
+    }
+
+    public function stations() : HasMany
+    {
+        return $this->hasMany(Station::class);
     }
 }
