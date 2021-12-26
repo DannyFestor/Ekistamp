@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             PrefectureSeeder::class,
             CitySeeder::class,
             CompanySeeder::class,
+            LineSeeder::class,
         ]);
 
         // Update ID index on PSQL...

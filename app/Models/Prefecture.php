@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Prefecture extends Model
 {
@@ -14,8 +15,14 @@ class Prefecture extends Model
         'katakana_half',
     ];
 
-    public function cities()
+    public function cities() : HasMany
     {
         return $this->hasMany(City::class);
     }
+
+    public function lines() : HasMany
+    {
+        return $this->hasMany(Line::class);
+    }
+
 }
