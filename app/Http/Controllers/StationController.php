@@ -5,17 +5,19 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreStationRequest;
 use App\Http\Requests\UpdateStationRequest;
 use App\Models\Station;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class StationController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function index()
+    public function index() : Response
     {
-        //
+        return Inertia::render('Station/Index');
     }
 
     /**
