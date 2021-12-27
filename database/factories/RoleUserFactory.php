@@ -2,11 +2,11 @@
 
 namespace Database\Factories;
 
-use App\Models\Permission;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class PermissionRoleFactory extends Factory
+class RoleUserFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -16,8 +16,8 @@ class PermissionRoleFactory extends Factory
     public function definition()
     {
         return [
-            'permission_id' => Permission::inRandomOrder()->first()->id,
             'role_id' => Role::inRandomOrder()->first()->id,
+            'user_id' => User::inRandomOrder()->first()->id,
         ];
     }
 }
