@@ -80,13 +80,10 @@ class DatabaseSeeder extends Seeder
 
         // Update ID index on PSQL...
         $tables = \DB::select('SELECT table_name FROM information_schema.tables WHERE table_schema = \'public\' ORDER BY table_name;');
-
-// Set the tables in the database you would like to ignore
-        $ignores = array('password_resets');
-
-//loop through the tables
+        // Set the tables in the database you would like to ignore
+        $ignores = array('password_resets', 'line_station', 'stamp_user', 'permission_role', 'role_user');
+        //loop through the tables
         foreach ($tables as $table) {
-
             // if the table is not to be ignored then:
             if (!in_array($table->table_name, $ignores)) {
 
@@ -95,9 +92,7 @@ class DatabaseSeeder extends Seeder
 
                 // alter the sequence to now RESTART WITH the new sequence index from above
                 \DB::select('ALTER SEQUENCE ' . $table->table_name . '_id_seq RESTART WITH ' . $seq);
-
             }
-
         }
     }
 }
