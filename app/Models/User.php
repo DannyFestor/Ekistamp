@@ -53,4 +53,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Stamp::class);
     }
+
+    public function roles() : BelongsToMany
+    {
+        return $this->belongsToMany(Role::class);
+    }
 }
