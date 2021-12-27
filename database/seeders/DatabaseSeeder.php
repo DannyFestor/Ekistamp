@@ -73,6 +73,7 @@ class DatabaseSeeder extends Seeder
             StampSeeder::class,
             StampUserSeeder::class,
             RoleSeeder::class,
+            PermissionSeeder::class,
         ]);
 
         // Update ID index on PSQL...
