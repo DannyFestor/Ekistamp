@@ -1,79 +1,77 @@
 <template>
-    <Head title="Register" />
+    <Head title="Log in" />
 
-    <BreezeValidationErrors class="mb-4" />
+    <section class="relative w-full h-full flex items-center justify-center">
+        <form @submit.prevent="submit" class="flex flex-col rounded-xl border border-green-200 bg-white p-8 space-y-4">
+            <div class="text-green-600 text-2xl font-bold">登録 Register</div>
 
-    <form @submit.prevent="submit">
-        <div>
-            <BreezeLabel for="name" value="Name" />
-            <BreezeInput id="name" type="text" class="mt-1 block w-full" v-model="form.name" required autofocus autocomplete="name" />
-        </div>
+            <article class="flex flex-col">
+                <label for="name">
+                    Name
+                </label>
+                <input name="name" id="name" type="text" v-model="form.name">
+                <div v-if="form.errors.name" v-text="form.errors.name" class="text-sm text-red-600"></div>
+            </article>
 
-        <div class="mt-4">
-            <BreezeLabel for="email" value="Email" />
-            <BreezeInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autocomplete="username" />
-        </div>
+            <article class="flex flex-col">
+                <label for="email">
+                    Email
+                </label>
+                <input name="email" id="email" type="email" v-model="form.email">
+                <div v-if="form.errors.email" v-text="form.errors.email" class="text-sm text-red-600"></div>
+            </article>
 
-        <div class="mt-4">
-            <BreezeLabel for="password" value="Password" />
-            <BreezeInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="new-password" />
-        </div>
+            <article class="flex flex-col">
+                <label for="password">
+                    Password
+                </label>
+                <input name="password" id="password" type="password" v-model="form.password">
+                <div v-if="form.errors.password" v-text="form.errors.password" class="text-sm text-red-600"></div>
+            </article>
 
-        <div class="mt-4">
-            <BreezeLabel for="password_confirmation" value="Confirm Password" />
-            <BreezeInput id="password_confirmation" type="password" class="mt-1 block w-full" v-model="form.password_confirmation" required autocomplete="new-password" />
-        </div>
+            <article class="flex flex-col">
+                <label for="password_confirmation">
+                    Confirm Password
+                </label>
+                <input name="password_confirmation" id="password_confirmation" type="password"
+                       v-model="form.password_confirmation">
+                <div v-if="form.errors.password_confirmation" v-text="form.errors.password_confirmation"
+                     class="text-sm text-red-600"></div>
+            </article>
 
-        <div class="flex items-center justify-end mt-4">
-            <Link :href="route('login')" class="underline text-sm text-gray-600 hover:text-gray-900">
-                Already registered?
-            </Link>
-
-            <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Register
-            </BreezeButton>
-        </div>
-    </form>
+            <div class="flex items-center justify-end mt-4">
+                <button type="submit" class="px-4 py-2 bg-green-700 text-white rounded"
+                        :class="{ 'opacity-25': form.processing }"
+                        :disabled="form.processing">
+                    Log in
+                </button>
+            </div>
+        </form>
+    </section>
 </template>
 
 <script>
-import BreezeButton from '@/Components/Button.vue'
-import BreezeGuestLayout from '@/Layouts/Guest.vue'
-import BreezeInput from '@/Components/Input.vue'
-import BreezeLabel from '@/Components/Label.vue'
-import BreezeValidationErrors from '@/Components/ValidationErrors.vue'
-import { Head, Link } from '@inertiajs/inertia-vue3';
+import Guest from '../../Layouts/Guest';
 
 export default {
-    layout: BreezeGuestLayout,
+    layout: Guest,
+};
+</script>
 
-    components: {
-        BreezeButton,
-        BreezeInput,
-        BreezeLabel,
-        BreezeValidationErrors,
-        Head,
-        Link,
-    },
+<script setup>
 
-    data() {
-        return {
-            form: this.$inertia.form({
-                name: '',
-                email: '',
-                password: '',
-                password_confirmation: '',
-                terms: false,
-            })
-        }
-    },
+import {useForm} from '@inertiajs/inertia-vue3';
 
-    methods: {
-        submit() {
-            this.form.post(this.route('register'), {
-                onFinish: () => this.form.reset('password', 'password_confirmation'),
-            })
-        }
-    }
-}
+const form = useForm({
+    name: null,
+    email: null,
+    password: null,
+    password_confirmation: null,
+});
+
+const submit = () => {
+    form.post('register', {
+        onFinish: () => this.form.reset('password', 'password_confirmation'),
+    });
+};
 </script>

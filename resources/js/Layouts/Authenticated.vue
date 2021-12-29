@@ -3,17 +3,13 @@
         <meta type="description" content="Collect all your stamps at one place!" head-key="description">
     </Head>
 
-    <section id="nav">
-        <Link href="/dashboard">Dashboard</Link>
-        <Link href="/stations">Stations</Link>
-    </section>
+    <Navbar />
 
-    <section>
-        <main>
-            <slot />
-        </main>
-    </section>
+    <main class="min-h-screen pt-16">
+        <slot />
+    </main>
 </template>
 
 <script setup>
+import Navbar from './Partials/Navigation/Navbar'
 </script>

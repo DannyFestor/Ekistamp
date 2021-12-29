@@ -9,8 +9,8 @@ const appName = window.document.getElementsByTagName('title')[0]?.innerText || '
 
 createInertiaApp({
     title: (title) => `${appName} - ${title}`,
-    resolve: name => {
-        let page = require(`./Pages/${name}`).default;
+    resolve: async name => {
+        let page = (await import(`./Pages/${name}`)).default;
 
         if (page.layout === undefined) {
             page.layout = Layout;

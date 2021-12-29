@@ -1,25 +1,28 @@
 <template>
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-        <div>
-            <Link href="/">
-                <BreezeApplicationLogo class="w-20 h-20 fill-current text-gray-500" />
-            </Link>
-        </div>
+    <nav id="nav" class="z-10 fixed top-0 left-0 right-0 bg-white shadow h-16 flex justify-between">
+        <section class="flex text-3xl text-green-600 flex items-center justify-center px-4">
+            <Link href="/">Ekistamp.info</Link>
+        </section>
 
-        <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-            <slot />
-        </div>
-    </div>
+        <section class="flex">
+            <NavLink href="/login"
+                     :active="$page.component === 'Auth/Login'"
+            >
+                Login
+            </NavLink>
+            <NavLink href="/register"
+                     :active="$page.component === 'Auth/Register'"
+            >
+                Register
+            </NavLink>
+        </section>
+    </nav>
+
+    <main class="relative w-full h-px min-h-screen bg-green-50 p-8 pt-16">
+        <slot />
+    </main>
 </template>
 
-<script>
-import BreezeApplicationLogo from '@/Components/ApplicationLogo.vue'
-import { Link } from '@inertiajs/inertia-vue3';
-
-export default {
-    components: {
-        BreezeApplicationLogo,
-        Link,
-    }
-}
+<script setup>
+import NavLink from './Partials/Navigation/NavLink';
 </script>

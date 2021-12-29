@@ -1,85 +1,69 @@
 <template>
     <Head title="Log in" />
 
-    <BreezeValidationErrors class="mb-4" />
+    <section class="relative w-full h-full flex items-center justify-center">
 
-    <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-        {{ status }}
-    </div>
+        <form @submit.prevent="submit" class="flex flex-col rounded-xl border border-green-200 bg-white p-8 space-y-4">
+        <div class="text-green-600 text-2xl font-bold">ログイン Login</div>
 
-    <form @submit.prevent="submit">
-        <div>
-            <BreezeLabel for="email" value="Email" />
-            <BreezeInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus autocomplete="username" />
-        </div>
+            <article class="flex flex-col">
+                <label for="email">
+                    Email
+                </label>
+                <input name="email" id="email" type="email" v-model="form.email">
+                <div v-if="form.errors.email" v-text="form.errors.email" class="text-sm text-red-600"></div>
+            </article>
 
-        <div class="mt-4">
-            <BreezeLabel for="password" value="Password" />
-            <BreezeInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="current-password" />
-        </div>
+            <article class="flex flex-col">
+                <label for="password">
+                    Password
+                </label>
+                <input name="password" id="password" type="password" v-model="form.password">
+            </article>
 
-        <div class="block mt-4">
-            <label class="flex items-center">
-                <BreezeCheckbox name="remember" v-model:checked="form.remember" />
-                <span class="ml-2 text-sm text-gray-600">Remember me</span>
-            </label>
-        </div>
+            <article class="flex items-center">
+                <input type="checkbox" id="remember" name="remember" v-model="form.remember" />
+                <label for="remember">
+                    <span class="ml-2 text-sm text-gray-600">Remember me</span>
+                </label>
+            </article>
 
-        <div class="flex items-center justify-end mt-4">
-            <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900">
-                Forgot your password?
-            </Link>
+            <div class="flex items-center justify-end mt-4">
+                <Link v-if="canResetPassword" :href="route('password.request')"
+                      class="underline text-sm text-gray-600 hover:text-gray-900">
+                    Forgot your password?
+                </Link>
 
-            <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Log in
-            </BreezeButton>
-        </div>
-    </form>
+                <button type="submit" class="px-4 py-2 bg-green-700 text-white rounded" :class="{ 'opacity-25': form.processing }"
+                        :disabled="form.processing">
+                    Log in
+                </button>
+            </div>
+        </form>
+    </section>
 </template>
 
 <script>
-import BreezeButton from '@/Components/Button.vue'
-import BreezeCheckbox from '@/Components/Checkbox.vue'
-import BreezeGuestLayout from '@/Layouts/Guest.vue'
-import BreezeInput from '@/Components/Input.vue'
-import BreezeLabel from '@/Components/Label.vue'
-import BreezeValidationErrors from '@/Components/ValidationErrors.vue'
-import { Head, Link } from '@inertiajs/inertia-vue3';
+import Guest from '../../Layouts/Guest';
 
 export default {
-    layout: BreezeGuestLayout,
+    layout: Guest,
+};
+</script>
 
-    components: {
-        BreezeButton,
-        BreezeCheckbox,
-        BreezeInput,
-        BreezeLabel,
-        BreezeValidationErrors,
-        Head,
-        Link,
-    },
+<script setup>
 
-    props: {
-        canResetPassword: Boolean,
-        status: String,
-    },
+import {useForm} from '@inertiajs/inertia-vue3';
 
-    data() {
-        return {
-            form: this.$inertia.form({
-                email: '',
-                password: '',
-                remember: false
-            })
-        }
-    },
+const form = useForm({
+    email: null,
+    password: null,
+    remember: false,
+});
 
-    methods: {
-        submit() {
-            this.form.post(this.route('login'), {
-                onFinish: () => this.form.reset('password'),
-            })
-        }
-    }
-}
+const submit = () => {
+    form.post('login', {
+        onFinish: () => this.form.reset('password'),
+    });
+};
 </script>
