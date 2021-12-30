@@ -2,15 +2,18 @@
     <Head title="Log in" />
 
     <section class="relative w-full h-full flex items-center justify-center">
-
-        <form @submit.prevent="submit" class="flex flex-col rounded-xl border border-green-200 bg-white p-8 space-y-4">
-        <div class="text-green-600 text-2xl font-bold">ログイン Login</div>
+        <form @submit.prevent="submit" class="flex flex-col rounded-xl border border-green-700 shadow bg-white p-8 space-y-4">
+            <div class="text-green-600 text-2xl font-bold">ログイン Login</div>
 
             <article class="flex flex-col">
                 <label for="email">
                     Email
                 </label>
-                <input name="email" id="email" type="email" v-model="form.email">
+                <input name="email"
+                       id="email"
+                       type="email"
+                       v-model="form.email"
+                       required>
                 <div v-if="form.errors.email" v-text="form.errors.email" class="text-sm text-red-600"></div>
             </article>
 
@@ -18,11 +21,18 @@
                 <label for="password">
                     Password
                 </label>
-                <input name="password" id="password" type="password" v-model="form.password">
+                <input name="password"
+                       id="password"
+                       type="password"
+                       v-model="form.password"
+                       required>
             </article>
 
             <article class="flex items-center">
-                <input type="checkbox" id="remember" name="remember" v-model="form.remember" />
+                <input name="remember"
+                       id="remember"
+                       type="checkbox"
+                       v-model="form.remember" />
                 <label for="remember">
                     <span class="ml-2 text-sm text-gray-600">Remember me</span>
                 </label>
@@ -34,11 +44,14 @@
                     Forgot your password?
                 </Link>
 
-                <button type="submit" class="px-4 py-2 bg-green-700 text-white rounded" :class="{ 'opacity-25': form.processing }"
+                <button type="submit" class="px-4 py-2 bg-green-700 text-white rounded"
+                        :class="{ 'opacity-25': form.processing }"
                         :disabled="form.processing">
                     Log in
                 </button>
             </div>
+
+            <Link href="/forgot-password" class="text-gray-400 underline">Forgot Password</Link>
         </form>
     </section>
 </template>

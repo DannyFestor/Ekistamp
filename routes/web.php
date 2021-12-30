@@ -24,12 +24,12 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/stations', [\App\Http\Controllers\StationController::class, 'index'])->name('stations.index');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
-
-    Route::get('/stations', [\App\Http\Controllers\StationController::class, 'index'])->name('stations.index');
 });
 
 require __DIR__ . '/auth.php';

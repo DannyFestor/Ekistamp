@@ -1,11 +1,8 @@
 <template>
-    <button @click="open = !open"
-            class="fixed z-50 bottom-8 right-8 flex items-center space-x-2 focus:outline-none border rounded p-2 bg-white">
-            <span v-text="open ? 'Close' : 'Open'"
-                  class="font-medium text-lg">
-            </span>
+    <button @click="$emit('toggle-nav')"
+            class="fixed lg:hidden z-50 bottom-8 right-8 flex items-center space-x-2 focus:outline-none border rounded px-2 py-6 bg-white">
 
-        <div class="w-6 flex items-center justify-center relative">
+        <div class="w-8 flex items-center justify-center relative">
             <span :class="open ? 'translate-y-0 rotate-45' : '-translate-y-2'"
                   class="transform transition w-full h-px bg-current absolute"></span>
 
@@ -19,11 +16,7 @@
 </template>
 
 <script setup>
-import {ref} from 'vue';
-
-let open = ref(false);
-
-let toggleOpen = (e) => {
-    console.log(e);
-};
+defineProps({
+    open: Boolean,
+});
 </script>
