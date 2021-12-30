@@ -11,42 +11,41 @@
 
     <form @submit.prevent="submit">
         <div class="mt-4 flex items-center justify-between">
-            <BreezeButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+            <button class="px-4 py-2 bg-green-600 rounded text-white" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                 Resend Verification Email
-            </BreezeButton>
+            </button>
 
-            <Link :href="route('logout')" method="post" as="button" class="underline text-sm text-gray-600 hover:text-gray-900">Log Out</Link>
+            <Link :href="routes.logout" method="post" as="button" class="underline text-sm text-gray-600 hover:text-gray-900">Log Out</Link>
         </div>
     </form>
 </template>
+
+<script setup>
+
+import {useForm} from '@inertiajs/inertia-vue3';
+
+let props = defineProps({
+    status: String,
+})
+
+let routes = {
+    logout: route('logout'),
+    submit: route('verification.send'),
+}
+
+const form = useForm({});
+
+let submit = () => {
+    form.post(routes.submit);
+};
+
+</script>
 
 <script>
 import Guest from '../../Layouts/Guest';
 
 export default {
     layout: Guest,
-
-    components: {
-        BreezeButton,
-        Head,
-        Link,
-    },
-
-    props: {
-        status: String,
-    },
-
-    data() {
-        return {
-            form: this.$inertia.form()
-        }
-    },
-
-    methods: {
-        submit() {
-            this.form.post(this.route('verification.send'))
-        },
-    },
 
     computed: {
         verificationLinkSent() {
