@@ -20,11 +20,6 @@
         </div>
     </section>
 
-    <section>
-        <div v-text="stationName"></div>
-        <div v-text="prefectureName"></div>
-    </section>
-
     <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
         <div @click="open(station.id)"
              v-for="station in stations.data"
