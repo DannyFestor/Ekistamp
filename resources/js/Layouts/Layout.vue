@@ -5,7 +5,7 @@
 
     <Navbar />
 
-    <main class="h-px min-h-screen pt-16">
+    <main class="relative z-0 h-px min-h-screen pt-16">
         <slot />
     </main>
 </template>

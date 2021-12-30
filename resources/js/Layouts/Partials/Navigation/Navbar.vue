@@ -1,5 +1,5 @@
 <template>
-    <nav id="nav" class="flex justify-between fixed top-0 left-0 right-0 h-16 shadow">
+    <nav id="nav" class="flex justify-between fixed z-10 top-0 left-0 right-0 h-16 shadow">
         <section class="px-4 flex items-center justify-center text-3xl text-green-500">
             Ekistamp.info
         </section>
@@ -24,9 +24,12 @@
                 <NavLink href="/register" :active="$page.component === 'Register'">Register</NavLink>
             </template>
         </section>
+
+        <Hamburger />
     </nav>
 </template>
 
 <script setup>
 import NavLink from './NavLink';
+import Hamburger from './Hamburger';
 </script>
