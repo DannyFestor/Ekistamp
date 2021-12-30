@@ -76,6 +76,7 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             PermissionRoleSeeder::class,
             RoleUserSeeder::class,
+            PostSeeder::class,
         ]);
 
         // Update ID index on PSQL...

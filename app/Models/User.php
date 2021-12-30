@@ -69,4 +69,9 @@ class User extends Authenticatable implements MustVerifyEmail
             PermissionRole::class,
         ]);
     }
+
+    public function posts() : HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
 }

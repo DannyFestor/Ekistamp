@@ -27,10 +27,10 @@ class RoleSeeder extends Seeder
             ['id' => 4], ['name' => 'Curator', 'description' => 'A Curator can see, approve, add, edit and delete all Stamps']
         );
         Role::updateOrCreate(
-            ['id' => 5], ['name' => 'User', 'description' => 'A User can submit new Stamps, create Posts and Comments']
+            ['id' => 5], ['name' => 'User', 'description' => 'A User can submit new Stamps for Review, create Comments on Posts and Stamps']
         );
         Role::updateOrCreate(
-            ['id' => 6], ['name' => 'Shadowbanned', 'description' => 'A Shadowbanned User can create Stamps, Posts and Comments, but they do not appear']
+            ['id' => 6], ['name' => 'Shadowbanned', 'description' => 'A Shadowbanned User can create Stamps and Comments, but they do not appear']
         );
     }
 }

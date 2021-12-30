@@ -47,7 +47,7 @@ class PermissionRoleSeeder extends Seeder
         $user->permissions()->sync(
             $permissions
                 ->filter(function ($permission) {
-                    return Str::endsWith($permission->name, ['create_post', 'create_comment']);
+                    return Str::endsWith($permission->name, ['create_comment']);
                 })
                 ->pluck('id')
         );
