@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreStationRequest;
 use App\Http\Requests\UpdateStationRequest;
 use App\Models\Station;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -24,7 +24,9 @@ class StationController extends Controller
                 ->select(['id', 'prefecture_id', 'city_id', 'name', 'hiragana', 'romaji'])
                 ->with(['prefecture:id,name,hiragana,romaji'])
                 ->withCount('lines')
-                ->withCount('stamps')
+                ->withCount(['stamps' => function ($query) {
+                    $query->where('is_approved', '=', true);
+                }])
                 ->when(request()->input('station'), function ($query, $value) {
                     $search = Str::lower($value);
                     $query->where('name', 'like', "%{$search}%");
@@ -60,7 +62,8 @@ class StationController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreStationRequest  $request
+     * @param \App\Http\Requests\StoreStationRequest $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(StoreStationRequest $request)
@@ -77,9 +80,26 @@ class StationController extends Controller
      */
     public function show(Station $station) : Response
     {
+        $station->load([
+            'prefecture:id,name,hiragana,romaji',
+            'city:id,name,hiragana,romaji',
+            'street:id,postcode_id,name,hiragana,romaji',
+            'street.postcode:id,postcode',
+            'lines:id,name',
+            'lines.stations' => function ($query) {
+                $query->select(['id', 'name', 'romaji']);
+                $query->orderByPivot('order');
+            },
+            'stamps' => function (HasMany $query) {
+                $query->select(['id', 'station_id', 'name','name_eng']);
+//                $query->whereRaw('is_approved = true');
+                $query->where('is_approved', true);
+            }
+        ]);
         return Inertia::render('Station/Show', [
             'station' => $station,
             'filters' => request()->only(['station', 'prefecture']),
+            // TODO: User Station Stamps
         ]);
     }
 
@@ -98,8 +118,9 @@ class StationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateStationRequest $request
-     * @param Station                                  $station
+     * @param \App\Http\Requests\UpdateStationRequest $request
+     * @param Station                                 $station
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateStationRequest $request, Station $station)
@@ -111,6 +132,7 @@ class StationController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Station $station
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Station $station)

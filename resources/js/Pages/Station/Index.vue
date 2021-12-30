@@ -31,7 +31,7 @@
              :key="station.id"
              class="flex flex-col p-4 border-gray-200 shadow rounded cursor-pointer hover:bg-gray-200">
             <section class="flex flex-wrap justify-between items-center">
-                <div>
+                <div class="break-all">
                     <ruby>
                         <span class="text-xl text-green-700" v-text="station.name"></span>
                         <rp>(</rp>

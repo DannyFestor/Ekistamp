@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreStampRequest;
 use App\Http\Requests\UpdateStampRequest;
 use App\Models\Stamp;
+use App\Models\Station;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class StampController extends Controller
 {
@@ -42,18 +45,23 @@ class StampController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Stamp  $stamp
-     * @return \Illuminate\Http\Response
+     * @param Stamp $stamp
+     *
+     * @return Response
      */
-    public function show(Stamp $stamp)
+    public function show(Station $station, Stamp $stamp)
     {
-        //
+        return Inertia::render('Stamp/Show', [
+            'stamp' => $stamp,
+            'filters' => request()->only(['prefecture', 'station']),
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Stamp  $stamp
+     * @param Stamp $stamp
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit(Stamp $stamp)
@@ -64,8 +72,8 @@ class StampController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateStampRequest  $request
-     * @param  \App\Models\Stamp  $stamp
+     * @param  \App\Http\Requests\UpdateStampRequest $request
+     * @param Stamp                                  $stamp
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateStampRequest $request, Stamp $stamp)
@@ -76,7 +84,7 @@ class StampController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Stamp  $stamp
+     * @param Stamp $stamp
      * @return \Illuminate\Http\Response
      */
     public function destroy(Stamp $stamp)

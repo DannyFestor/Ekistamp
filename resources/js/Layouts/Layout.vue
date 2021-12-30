@@ -5,7 +5,7 @@
 
     <Navbar />
 
-    <main class="relative z-0 h-px min-h-screen max-w-6xl mx-auto p-4 sm:p-8 md:p-20 sm:pt-20">
+    <main class="relative z-0 h-px min-h-screen max-w-6xl mx-auto p-4 sm:p-8 md:p-20">
         <slot />
     </main>
 </template>

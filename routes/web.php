@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\StampController;
 use App\Http\Controllers\StationController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +29,7 @@ Route::get('/', function () {
 
 Route::get('/stations', [StationController::class, 'index'])->name('stations.index');
 Route::get('/stations/{station}', [StationController::class, 'show'])->name('stations.show');
+Route::get('/stations/{station}/stamps/{stamp}', [StampController::class, 'show'])->name('stamps.show');
 
 Route::get('/news', [PostController::class, 'index'])->name('posts.index');
 
