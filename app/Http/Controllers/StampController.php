@@ -52,6 +52,7 @@ class StampController extends Controller
     public function show(Station $station, Stamp $stamp)
     {
         return Inertia::render('Stamp/Show', [
+            'station' => $station,
             'stamp' => $stamp,
             'filters' => request()->only(['prefecture', 'station']),
         ]);
