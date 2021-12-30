@@ -43,14 +43,6 @@
     </section>
 </template>
 
-<script>
-import Guest from '../../Layouts/Guest';
-
-export default {
-    layout: Guest,
-};
-</script>
-
 <script setup>
 
 import {useForm} from '@inertiajs/inertia-vue3';

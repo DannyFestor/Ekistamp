@@ -3,7 +3,7 @@ require('./bootstrap');
 import { createApp, h } from 'vue';
 import {createInertiaApp, Link, Head} from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
-import Layout from './Layouts/Authenticated';
+import Layout from './Layouts/Layout';
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 

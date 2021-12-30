@@ -42,11 +42,7 @@ let submit = () => {
 </script>
 
 <script>
-import Guest from '../../Layouts/Guest';
-
 export default {
-    layout: Guest,
-
     computed: {
         verificationLinkSent() {
             return this.status === 'verification-link-sent';
