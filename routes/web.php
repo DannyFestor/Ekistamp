@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\StationController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,8 +26,10 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/stations', [\App\Http\Controllers\StationController::class, 'index'])->name('stations.index');
-Route::get('/news', [\App\Http\Controllers\PostController::class, 'index'])->name('posts.index');
+Route::get('/stations', [StationController::class, 'index'])->name('stations.index');
+Route::get('/stations/{station}', [StationController::class, 'show'])->name('stations.show');
+
+Route::get('/news', [PostController::class, 'index'])->name('posts.index');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {

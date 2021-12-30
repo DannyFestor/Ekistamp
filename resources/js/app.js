@@ -21,6 +21,7 @@ createInertiaApp({
     setup({ el, app, props, plugin }) {
         return createApp({ render: () => h(app, props) })
             .use(plugin)
+            .mixin({ methods: { route: window.route } })
             .component('Link', Link)
             .component('Head', Head)
             .mount(el);

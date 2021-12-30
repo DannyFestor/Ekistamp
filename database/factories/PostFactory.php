@@ -19,7 +19,10 @@ class PostFactory extends Factory
         $title = $this->faker->words(random_int(3, 6), true);
 
         return [
-            'user_id' => User::whereHas('permissions', function ($query) { $query->where('permissions.name', '=', 'create_post'); })->inRandomOrder()->first(),
+            'user_id' => User::whereHas('permissions', function ($query) {
+                $query->where('permissions.name', '=', 'create_post');
+                $query->orWhere('permissions.name', '=', 'all');
+            })->inRandomOrder()->first(),
             'slug' => Str::slug($this->faker->date() . ' ' . $title, '-'),
             'title' => $title,
             'description' => $this->faker->realTextBetween(100, 300, 3),

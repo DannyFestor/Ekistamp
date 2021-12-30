@@ -17,7 +17,7 @@
                     Resend Verification Email
                 </button>
 
-                <Link :href="routes.logout" method="post" as="button"
+                <Link :href="route('logout')" method="post" as="button"
                       class="underline text-sm text-gray-600 hover:text-gray-900">Log Out
                 </Link>
             </div>
@@ -33,15 +33,10 @@ let props = defineProps({
     status: String,
 })
 
-let routes = {
-    logout: route('logout'),
-    submit: route('verification.send'),
-}
-
 const form = useForm({});
 
 let submit = () => {
-    form.post(routes.submit);
+    form.post(route('verification.send'));
 };
 
 </script>
