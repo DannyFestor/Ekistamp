@@ -1,5 +1,10 @@
 <template>
     <Head title="Stations" />
+    <section class="flex flex-wrap">
+        <Breadcrump>
+            駅一覧 Stations
+        </Breadcrump>
+    </section>
 
     <section class="flex flex-col space-y-2 mb-4" id="search">
         <div class="flex flex-wrap items-center">
@@ -70,6 +75,7 @@ import {debounce} from 'lodash';
 import {Inertia} from '@inertiajs/inertia';
 
 import Pagination from '../../Shared/Pagination';
+import Breadcrump from '../../Shared/Breadcrump';
 
 let props = defineProps({
     stations: Object,
