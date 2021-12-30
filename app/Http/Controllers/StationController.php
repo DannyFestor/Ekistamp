@@ -79,6 +79,7 @@ class StationController extends Controller
     {
         return Inertia::render('Station/Show', [
             'station' => $station,
+            'filters' => request()->only(['station', 'prefecture']),
         ]);
     }
 
