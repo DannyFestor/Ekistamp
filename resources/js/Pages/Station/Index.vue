@@ -6,23 +6,26 @@
         </Breadcrump>
     </section>
 
-    <section class="flex flex-col space-y-2 mb-4" id="search">
-        <div class="flex flex-wrap items-center">
-            <label class="w-full w-24" for="station_name">Station: </label>
-            <input v-model="stationName"
-                   class="flex-1 border border-gray-400 focus:border-blue-400 outline-none px-4 py-2 rounded"
-                   id="station_name"
-                   name="station_name"
-                   type="text" />
-        </div>
-        <div class="flex flex-wrap items-center">
-            <label class="w-full w-24" for="prefecture_name">Prefecture: </label>
-            <input v-model="prefectureName"
-                   class="flex-1 border border-gray-400 focus:border-blue-400 outline-none px-4 py-2 rounded"
-                   id="prefecture_name"
-                   name="prefecture_name"
-                   type="text" />
-        </div>
+    <section class="flex mb-4">
+        <section class="flex flex-col flex-1 space-y-2" id="search">
+            <div class="flex flex-wrap items-center">
+                <label class="w-full w-24" for="station_name">Station: </label>
+                <input v-model="stationName"
+                       class="flex-1 border border-gray-400 focus:border-blue-400 outline-none px-4 py-2 rounded"
+                       id="station_name"
+                       name="station_name"
+                       type="text" />
+            </div>
+            <div class="flex flex-wrap items-center">
+                <label class="w-full w-24" for="prefecture_name">Prefecture: </label>
+                <input v-model="prefectureName"
+                       class="flex-1 border border-gray-400 focus:border-blue-400 outline-none px-4 py-2 rounded"
+                       id="prefecture_name"
+                       name="prefecture_name"
+                       type="text" />
+            </div>
+        </section>
+        <button @click="clearForm" class="ml-4 w-16 bg-green-700 hover:bg-green-500 text-white rounded">Clear</button>
     </section>
 
     <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
@@ -101,6 +104,12 @@ watch(
 
 let open = (id) => {
     console.log(prefectureName);
-    Inertia.get(route('stations.show', {'station': id, _query: {'prefecture': prefectureName.value, 'station': stationName.value}}));
+    Inertia.get(route('stations.show',
+        {'station': id, _query: {'prefecture': prefectureName.value, 'station': stationName.value}}));
 };
+
+let clearForm = () => {
+    stationName.value = null;
+    prefectureName.value = null;
+}
 </script>
