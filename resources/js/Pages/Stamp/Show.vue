@@ -1,7 +1,7 @@
 <template>
     <Head :title="stamp.name" />
 
-    <Upload :open="open" @close-upload="open = false" />
+    <Upload :open="open" @close-upload="open = false" :url="route('stamps.upload-image', { station: station.id, stamp: stamp.id })" />
 
     <section class="flex flex-wrap">
         <Breadcrump :href="route('stations.index', { prefecture: filters.prefecture, station: filters.station })"

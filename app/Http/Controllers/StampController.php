@@ -6,6 +6,7 @@ use App\Http\Requests\StoreStampRequest;
 use App\Http\Requests\UpdateStampRequest;
 use App\Models\Stamp;
 use App\Models\Station;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -40,6 +41,10 @@ class StampController extends Controller
     public function store(StoreStampRequest $request)
     {
         //
+    }
+    public function storeImage(Request $request)
+    {
+        dd($request->image);
     }
 
     /**

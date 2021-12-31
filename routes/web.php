@@ -37,6 +37,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    Route::group(['as' => 'stamps.', 'prefix' => '/stations/{station}/stamps'], function() {
+        Route::post('{stamp}/image', [StampController::class, 'storeImage'])->name('upload-image');
+    });
 });
 
 require __DIR__ . '/auth.php';
