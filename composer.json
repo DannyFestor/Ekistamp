@@ -12,6 +12,8 @@
         "laravel/framework": "^8.65",
         "laravel/sanctum": "^2.8",
         "laravel/tinker": "^2.5",
+        "league/flysystem-aws-s3-v3": "^1.0",
+        "spatie/laravel-medialibrary": "^9.0.0",
         "staudenmeir/eloquent-has-many-deep": "^1.7",
         "tightenco/ziggy": "^1.4"
     },

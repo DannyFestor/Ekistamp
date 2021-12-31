@@ -51,6 +51,8 @@ class StampController extends Controller
      */
     public function show(Station $station, Stamp $stamp)
     {
+        $stamp->load('media');
+
         return Inertia::render('Stamp/Show', [
             'station' => $station,
             'stamp' => $stamp,
