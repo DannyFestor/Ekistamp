@@ -57,6 +57,8 @@ let selectFile = (e) => {
     }
 };
 
+// Drag and Drop
+
 let upload = async () => {
     form.image = cropper.getCroppedCanvas().toDataURL();
     form.post(props.url);
