@@ -60,9 +60,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('/', [\App\Http\Controllers\Admin\PrefectureController::class, 'store'])
                 ->name('store')
                 ->can('create', \App\Models\Prefecture::class);
-            Route::get('/{prefecture}', [\App\Http\Controllers\Admin\PrefectureController::class, 'show'])
-                ->name('show')
-                ->can('view', 'prefecture');
             Route::get('/{prefecture}/edit', [\App\Http\Controllers\Admin\PrefectureController::class, 'edit'])
                 ->name('edit')
                 ->can('update', 'prefecture');
@@ -70,7 +67,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->name('update')
                 ->can('update', 'prefecture');
             Route::delete('/{prefecture}', [\App\Http\Controllers\Admin\PrefectureController::class, 'destroy'])
-                ->name('update')
+                ->name('delete')
                 ->can('delete', 'prefecture');
         });
     });

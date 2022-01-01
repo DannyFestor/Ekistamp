@@ -5,8 +5,8 @@
         <Breadcrump :href="route('admin.prefectures.index', { prefecture: filters.prefecture })">
             都道府県一覧 Prefectures
         </Breadcrump>
-        <Breadcrump>
-            新規登録 Create
+        <Breadcrump class="capitalize">
+            新規登録 Edit {{ prefecture.name }} {{ prefecture.romaji }}
         </Breadcrump>
     </section>
 
@@ -14,7 +14,7 @@
         Create New Prefecture
     </section>
 
-    <form @submit.prevent="storePrefecture" class="flex flex-col">
+    <form @submit.prevent="editPrefecture" class="flex flex-col">
         <section>
             <label for="kanji">漢字 Kanji</label>
             <input id="kanji" name="kanji" type="text" v-model="form.kanji">
@@ -37,10 +37,12 @@
         </section>
 
         <div class="flex items-center justify-end mt-4">
-            <button type="submit" class="px-4 py-2 bg-green-700 text-white rounded"
+            <button @click.prevent="deletePrefecture" class="px-4 py-2 mr-4 bg-red-700 hover:bg-red-500 text-white rounded">Delete</button>
+
+            <button type="submit" class="px-4 py-2 bg-green-700 hover:bg-green-500 text-white rounded"
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing">
-                Create
+                Save
             </button>
         </div>
     </form>
@@ -58,19 +60,27 @@ export default {
 import Breadcrump from '../../../Shared/Breadcrump';
 import {useForm} from '@inertiajs/inertia-vue3';
 import {watch} from 'vue';
+import {Inertia} from '@inertiajs/inertia';
 
 let props = defineProps({
+    prefecture: Object,
     filters: Object,
 });
 
 let form = useForm({
-    kanji: null,
-    hiragana: null,
-    katakana: null,
-    romaji: null,
+    kanji: props.prefecture.name,
+    hiragana: props.prefecture.hiragana,
+    katakana: props.prefecture.katakana,
+    romaji: props.prefecture.romaji,
 });
 
-let storePrefecture = () => {
-    form.post(route('admin.prefectures.store', {_query: {prefecture: props.filters.prefecture}}));
+let editPrefecture = async () => {
+    await form.put(route('admin.prefectures.update',
+        {prefecture: props.prefecture.id, _query: {prefecture: props.filters.prefecture}}));
+};
+
+let deletePrefecture = async () => {
+    await Inertia.delete(route('admin.prefectures.delete',
+        {prefecture: props.prefecture.id, _query: {prefecture: props.filters.prefecture}}));
 };
 </script>

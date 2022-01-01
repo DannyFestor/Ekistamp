@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePrefectureRequest;
+use App\Http\Requests\UpdatePrefectureRequest;
 use App\Models\Prefecture;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -68,20 +68,10 @@ class PrefectureController extends Controller
             'romaji' => Str::lower($request->romaji),
         ]);
         return redirect()
-            ->route('admin.prefectures.index')
+            ->route('admin.prefectures.index', [
+                'prefecture' => request()->input('prefecture'),
+            ])
             ->with('success', 'Prefecture was created');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Models\Prefecture $prefecture
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Prefecture $prefecture)
-    {
-        return $prefecture;
     }
 
     /**
@@ -89,11 +79,14 @@ class PrefectureController extends Controller
      *
      * @param \App\Models\Prefecture $prefecture
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit(Prefecture $prefecture)
     {
-        //
+        return Inertia::render('Admin/Prefecture/Edit', [
+            'prefecture' => $prefecture,
+            'filters' => request()->only(['prefecture']),
+        ]);
     }
 
     /**
@@ -102,11 +95,23 @@ class PrefectureController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Prefecture   $prefecture
      *
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function update(Request $request, Prefecture $prefecture)
+    public function update(UpdatePrefectureRequest $request, Prefecture $prefecture)
     {
-        //
+        $prefecture->fill([
+            'name' => $request->kanji,
+            'hiragana' => $request->hiragana,
+            'katakana' => $request->katakana,
+            'romaji' => Str::lower($request->romaji),
+        ]);
+        $prefecture->save();
+
+        return redirect()
+            ->route('admin.prefectures.index', [
+                'prefecture' => request()->input('prefecture'),
+            ])
+            ->with('success', 'Prefecture was edited');
     }
 
     /**
@@ -114,10 +119,16 @@ class PrefectureController extends Controller
      *
      * @param \App\Models\Prefecture $prefecture
      *
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function destroy(Prefecture $prefecture)
     {
-        //
+        $prefecture->delete();
+
+        return redirect()
+            ->route('admin.prefectures.index', [
+                'prefecture' => request()->input('prefecture'),
+            ])
+            ->with('success', 'Prefecture was edited');
     }
 }

@@ -8,7 +8,7 @@
     </section>
 
     <section class="flex justify-end my-4">
-        <Link :href="route('admin.prefectures.create', { prefecture: prefectureName })"
+        <Link :href="route('admin.prefectures.create', { _query: {prefecture: prefectureName }})"
               class="rounded px-4 py-2 bg-green-700 hover:bg-green-500 text-white">
             New Prefecture
         </Link>
@@ -79,7 +79,7 @@ watch(
 );
 
 let open = (id) => {
-    Inertia.get(route('admin.prefectures.show',
+    Inertia.get(route('admin.prefectures.edit',
         {'prefecture': id, _query: {'prefecture': prefectureName.value}}));
 };
 
