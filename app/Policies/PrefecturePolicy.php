@@ -10,6 +10,11 @@ class PrefecturePolicy
 {
     use HandlesAuthorization;
 
+    public function before(User $user)
+    {
+        return $user->permissions()->where('permissions.name', '=', 'all')->count() > 0;
+    }
+
     /**
      * Determine whether the user can view any models.
      *
@@ -30,7 +35,7 @@ class PrefecturePolicy
      */
     public function view(User $user, Prefecture $prefecture)
     {
-        //
+        return \Auth::user()->permissions()->where('permissions.name', '=', 'show_prefecture')->count() > 0;
     }
 
     /**

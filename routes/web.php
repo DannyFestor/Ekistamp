@@ -41,6 +41,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::group(['as' => 'stamps.', 'prefix' => '/stations/{station}/stamps'], function() {
         Route::post('{stamp}/image', [StampController::class, 'storeImage'])->name('upload-image');
     });
+
+    Route::group(['as' => 'admin.', 'prefix' => '/mg_admin', 'middleware' => ['can:access_admin']], function () {
+        Route::get('/', [\App\Http\Controllers\Admin\AdminController::class, 'index'])->name('index');
+        Route::group(['as' => 'prefectures.', 'prefix' => '/prefectures'], function () {
+            Route::get('/', [\App\Http\Controllers\Admin\PrefectureController::class, 'index'])->name('index');
+            Route::get('/{prefecture}', [\App\Http\Controllers\Admin\PrefectureController::class, 'show'])->name('show')->can('view', 'prefecture');
+        });
+    });
 });
 
 require __DIR__ . '/auth.php';

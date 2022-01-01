@@ -40,7 +40,9 @@ class HandleInertiaRequests extends Middleware
                     'username' => Auth::user()->name,
                     'email' => Auth::user()->email,
                 ],
-                'can' => Auth::user()->permissions()->pluck('permissions.name')->toArray(),
+                'can' => $request->routeIs('admin.*') ?
+                    Auth::user()->permissions()->pluck('permissions.name')->toArray()
+                    : Auth::user()->permissions()->whereIn('permissions.name', ['all', 'access_admin'])->pluck('permissions.name')->toArray(),
             ] : null
         ]);
     }

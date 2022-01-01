@@ -29,7 +29,7 @@ class PermissionRoleSeeder extends Seeder
         $moderator->permissions()->sync(
             $permissions
                 ->filter(function ($permission) {
-                    return $permission->name === 'access_admin' || Str::endsWith($permission->name, ['_prefecture', '_city', '_station', '_stamp', '_post', '_comment']);
+                    return $permission->name === 'access_admin' || Str::endsWith($permission->name, ['_prefecture', '_city', '_station', '_street', '_postcode', '_stamp', '_post', '_comment', '_company', '_line']);
                 })
                 ->pluck('id')
         );
@@ -38,7 +38,7 @@ class PermissionRoleSeeder extends Seeder
         $curator->permissions()->sync(
             $permissions
                 ->filter(function ($permission) {
-                    return $permission->name === 'access_admin' || Str::endsWith($permission->name, ['_prefecture', '_city', '_station', '_stamp', 'create_post', 'create_comment']);
+                    return $permission->name === 'access_admin' || Str::endsWith($permission->name, ['_prefecture', '_city', '_station', '_stamp', '_street', '_postcode', 'create_post', 'create_comment', '_company', '_line']);
                 })
                 ->pluck('id')
         );

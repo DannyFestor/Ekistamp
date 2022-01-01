@@ -103,7 +103,6 @@ watch(
 );
 
 let open = (id) => {
-    console.log(prefectureName);
     Inertia.get(route('stations.show',
         {'station': id, _query: {'prefecture': prefectureName.value, 'station': stationName.value}}));
 };
