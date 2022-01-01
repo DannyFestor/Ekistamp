@@ -21,7 +21,7 @@ class CreateStationsTable extends Migration
             $table->string('name');
             $table->string('hiragana');
             $table->string('katakana');
-            $table->string('katakana_half');
+            $table->string('katakana_half')->nullable();
             $table->string('romaji');
             $table->string('memo');
             $table->double('latitude');

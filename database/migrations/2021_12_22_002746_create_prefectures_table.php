@@ -19,7 +19,7 @@ class CreatePrefecturesTable extends Migration
             $table->string('romaji');
             $table->string('hiragana');
             $table->string('katakana');
-            $table->string('katakana_half');
+            $table->string('katakana_half')->nullable();
             $table->timestamps();
         });
     }

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StorePrefectureRequest;
 use App\Models\Prefecture;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -38,11 +40,16 @@ class PrefectureController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
-        //
+        return Inertia::render(
+            'Admin/Prefecture/Create',
+            [
+                'filters' => request()->only(['prefecture']),
+            ]
+        );
     }
 
     /**
@@ -50,11 +57,19 @@ class PrefectureController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StorePrefectureRequest $request)
     {
-        //
+        $prefecture = Prefecture::create([
+            'name' => $request->kanji,
+            'hiragana' => $request->hiragana,
+            'katakana' => $request->katakana,
+            'romaji' => Str::lower($request->romaji),
+        ]);
+        return redirect()
+            ->route('admin.prefectures.index')
+            ->with('success', 'Prefecture was created');
     }
 
     /**

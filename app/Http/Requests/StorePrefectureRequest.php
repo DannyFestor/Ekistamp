@@ -13,7 +13,7 @@ class StorePrefectureRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class StorePrefectureRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'kanji' => ['required'],
+            'hiragana' => ['required'],
+            'katakana' => ['required'],
+            'romaji' => ['required'],
         ];
     }
 }

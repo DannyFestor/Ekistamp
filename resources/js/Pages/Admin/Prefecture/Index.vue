@@ -7,6 +7,13 @@
         </Breadcrump>
     </section>
 
+    <section class="flex justify-end my-4">
+        <Link :href="route('admin.prefectures.create', { prefecture: prefectureName })"
+              class="rounded px-4 py-2 bg-green-700 hover:bg-green-500 text-white">
+            New Prefecture
+        </Link>
+    </section>
+
     <section class="flex mb-4">
         <section class="flex flex-col flex-1 space-y-2" id="search">
             <div class="flex flex-wrap items-center">
