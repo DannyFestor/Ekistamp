@@ -11,7 +11,7 @@
     </section>
 
     <section class="my-4 text-2xl">
-        Create New Prefecture
+        Edit City
     </section>
 
     <form @submit.prevent="editPrefecture" class="flex flex-col space-y-4">
