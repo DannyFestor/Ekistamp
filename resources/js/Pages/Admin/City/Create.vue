@@ -1,20 +1,33 @@
 <template>
-    <Head title="Prefecture Index" />
+    <Head title="City Index" />
 
     <section class="flex flex-wrap">
-        <Breadcrump :href="route('admin.prefectures.index', { prefecture: filters.prefecture })">
-            都道府県一覧 Prefectures
+        <Breadcrump :href="route('admin.cities.index', { prefecture: filters.prefecture, city: filters.city })">
+            市町村郡一覧 Cities
         </Breadcrump>
-        <Breadcrump class="capitalize">
-            編集 Edit {{ prefecture.name }} {{ prefecture.romaji }}
+        <Breadcrump>
+            新規登録 Create
         </Breadcrump>
     </section>
 
     <section class="my-4 text-2xl">
-        Create New Prefecture
+        Create New City
     </section>
 
-    <form @submit.prevent="editPrefecture" class="flex flex-col space-y-4">
+    <form @submit.prevent="storeCity" class="flex flex-col space-y-4">
+        <section class="flex flex-col">
+            <label for="prefecture_id">都道府県 Prefecture</label>
+            <select id="prefecture_id" name="prefecture_id" type="text" v-model.number="form.prefecture_id" class="capitalize">
+                <option :value="0">---</option>
+                <option v-for="prefecture in prefectures"
+                        :value="prefecture.id"
+                        :key="prefecture.id"
+                        >
+                    {{ prefecture.name }} - {{ prefecture.romaji }}
+                </option>
+            </select>
+            <div v-if="form.errors.prefecture_id" v-text="form.errors.prefecture_id" class="text-sm text-red-600"></div>
+        </section>
         <section class="flex flex-col">
             <label for="kanji">漢字 Kanji</label>
             <input id="kanji" name="kanji" type="text" v-model="form.kanji">
@@ -37,12 +50,10 @@
         </section>
 
         <div class="flex items-center justify-end mt-4">
-            <button @click.prevent="deletePrefecture" class="px-4 py-2 mr-4 bg-red-700 hover:bg-red-500 text-white rounded">Delete</button>
-
-            <button type="submit" class="px-4 py-2 bg-green-700 hover:bg-green-500 text-white rounded"
+            <button type="submit" class="px-4 py-2 bg-green-700 text-white rounded"
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing">
-                Save
+                Create
             </button>
         </div>
     </form>
@@ -60,27 +71,30 @@ export default {
 import Breadcrump from '../../../Shared/Breadcrump';
 import {useForm} from '@inertiajs/inertia-vue3';
 import {watch} from 'vue';
-import {Inertia} from '@inertiajs/inertia';
 
 let props = defineProps({
-    prefecture: Object,
+    prefectures: Object,
     filters: Object,
 });
 
 let form = useForm({
-    kanji: props.prefecture.name,
-    hiragana: props.prefecture.hiragana,
-    katakana: props.prefecture.katakana,
-    romaji: props.prefecture.romaji,
+    prefecture_id: parseInt(props.filters.prefecture) || 0,
+    kanji: null,
+    hiragana: null,
+    katakana: null,
+    romaji: null,
 });
 
-let editPrefecture = async () => {
-    await form.put(route('admin.prefectures.update',
-        {prefecture: props.prefecture.id, _query: {prefecture: props.filters.prefecture}}));
-};
-
-let deletePrefecture = async () => {
-    await Inertia.delete(route('admin.prefectures.delete',
-        {prefecture: props.prefecture.id, _query: {prefecture: props.filters.prefecture}}));
+let storeCity = () => {
+    form.post(route(
+        'admin.cities.store',
+        {
+            _query:
+                {
+                    prefecture: props.filters.prefecture,
+                    city: props.filters.city,
+                },
+        },
+    ));
 };
 </script>

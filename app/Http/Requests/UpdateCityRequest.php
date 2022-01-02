@@ -13,7 +13,7 @@ class UpdateCityRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,11 @@ class UpdateCityRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'prefecture_id' => ['required', 'numeric', 'min:1'],
+            'kanji' => ['required'],
+            'hiragana' => ['required'],
+            'katakana' => ['required'],
+            'romaji' => ['required'],
         ];
     }
 }

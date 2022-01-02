@@ -70,6 +70,27 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->name('delete')
                 ->can('delete', 'prefecture');
         });
+
+        Route::group(['as' => 'cities.', 'prefix' => '/cities'], function () {
+            Route::get('/', [\App\Http\Controllers\Admin\CityController::class, 'index'])
+                ->name('index')
+                ->can('viewAny', \App\Models\City::class);
+            Route::get('/create', [\App\Http\Controllers\Admin\CityController::class, 'create'])
+                ->name('create')
+                ->can('create', \App\Models\City::class);
+            Route::post('/', [\App\Http\Controllers\Admin\CityController::class, 'store'])
+                ->name('store')
+                ->can('create', \App\Models\City::class);
+            Route::get('/{city}/edit', [\App\Http\Controllers\Admin\CityController::class, 'edit'])
+                ->name('edit')
+                ->can('update', 'city');
+            Route::put('/{city}', [\App\Http\Controllers\Admin\CityController::class, 'update'])
+                ->name('update')
+                ->can('update', 'city');
+            Route::delete('/{city}', [\App\Http\Controllers\Admin\CityController::class, 'destroy'])
+                ->name('delete')
+                ->can('delete', 'city');
+        });
     });
 });
 

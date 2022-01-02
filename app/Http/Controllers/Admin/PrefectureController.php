@@ -22,7 +22,7 @@ class PrefectureController extends Controller
     {
         return Inertia::render('Admin/Prefecture/Index', [
             'prefectures' => Prefecture::query()
-                ->select(['id', 'name', 'hiragana', 'katakana', 'katakana_half', 'romaji'])
+                ->select(['id', 'name', 'hiragana', 'katakana', 'romaji'])
                 ->when(request()->input('prefecture'), function ($query, $value) {
                     $search = Str::lower($value);
                     $query->where('name', 'like', "%$search%");
@@ -129,6 +129,6 @@ class PrefectureController extends Controller
             ->route('admin.prefectures.index', [
                 'prefecture' => request()->input('prefecture'),
             ])
-            ->with('success', 'Prefecture was edited');
+            ->with('success', 'Prefecture was deleted');
     }
 }

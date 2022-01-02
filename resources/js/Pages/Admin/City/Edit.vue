@@ -2,11 +2,11 @@
     <Head title="Prefecture Index" />
 
     <section class="flex flex-wrap">
-        <Breadcrump :href="route('admin.prefectures.index', { prefecture: filters.prefecture })">
-            都道府県一覧 Prefectures
+        <Breadcrump :href="route('admin.cities.index', { prefecture: filters.prefecture, city: filters.city })">
+            市町村郡一覧 Cities
         </Breadcrump>
         <Breadcrump class="capitalize">
-            編集 Edit {{ prefecture.name }} {{ prefecture.romaji }}
+            編集 Edit {{ city.name }} {{ city.romaji }}
         </Breadcrump>
     </section>
 
@@ -15,6 +15,19 @@
     </section>
 
     <form @submit.prevent="editPrefecture" class="flex flex-col space-y-4">
+        <section class="flex flex-col">
+            <label for="prefecture_id">都道府県 Prefecture</label>
+            <select id="prefecture_id" name="prefecture_id" type="text" v-model.number="form.prefecture_id" class="capitalize">
+                <option :value="0">---</option>
+                <option v-for="prefecture in prefectures"
+                        :value="prefecture.id"
+                        :key="prefecture.id"
+                >
+                    {{ prefecture.name }} - {{ prefecture.romaji }}
+                </option>
+            </select>
+            <div v-if="form.errors.prefecture_id" v-text="form.errors.prefecture_id" class="text-sm text-red-600"></div>
+        </section>
         <section class="flex flex-col">
             <label for="kanji">漢字 Kanji</label>
             <input id="kanji" name="kanji" type="text" v-model="form.kanji">
@@ -63,24 +76,26 @@ import {watch} from 'vue';
 import {Inertia} from '@inertiajs/inertia';
 
 let props = defineProps({
-    prefecture: Object,
+    city: Object,
+    prefectures: Object,
     filters: Object,
 });
 
 let form = useForm({
-    kanji: props.prefecture.name,
-    hiragana: props.prefecture.hiragana,
-    katakana: props.prefecture.katakana,
-    romaji: props.prefecture.romaji,
+    prefecture_id: props.city.prefecture_id,
+    kanji: props.city.name,
+    hiragana: props.city.hiragana,
+    katakana: props.city.katakana,
+    romaji: props.city.romaji,
 });
 
 let editPrefecture = async () => {
-    await form.put(route('admin.prefectures.update',
-        {prefecture: props.prefecture.id, _query: {prefecture: props.filters.prefecture}}));
+    await form.put(route('admin.cities.update',
+        {city: props.city.id, _query: {prefecture: props.filters.prefecture, city: props.filters.city}}));
 };
 
 let deletePrefecture = async () => {
-    await Inertia.delete(route('admin.prefectures.delete',
-        {prefecture: props.prefecture.id, _query: {prefecture: props.filters.prefecture}}));
+    await Inertia.delete(route('admin.cities.delete',
+        {city: props.city.id, _query: {prefecture: props.filters.prefecture, city: props.filters.city}}));
 };
 </script>

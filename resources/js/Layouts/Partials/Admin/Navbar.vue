@@ -21,7 +21,10 @@
             >
                 Prefectures
             </NavLink>
-            <NavLink v-if="['all', 'show_city'].some(permission => $page.props.auth.can.includes(permission))">
+            <NavLink :href="route('admin.cities.index')"
+                     v-if="['all', 'show_city'].some(permission => $page.props.auth.can.includes(permission))"
+                     :active="$page.component.startsWith('Admin/City')"
+            >
                 Cities
             </NavLink>
             <NavLink v-if="['all', 'show_street'].some(permission => $page.props.auth.can.includes(permission))">
