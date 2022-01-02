@@ -1,6 +1,9 @@
 <template>
     <Link class="hover:bg-green-100 px-4 flex items-center lg:justify-center h-16"
-          :class="{ 'border-r-8 lg:border-r-0 lg:border-b-2 border-green-600': active }"
+          :class="{
+            'border-r-8 border-green-600': active,
+             'lg:border-r-0 lg:border-b-2': !$page.component.startsWith('Admin')
+          }"
     >
         <slot />
     </Link>

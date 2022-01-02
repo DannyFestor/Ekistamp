@@ -15,7 +15,10 @@
             <NavLink v-if="['all', 'show_permission'].some(permission => $page.props.auth.can.includes(permission))">
                 Permissions
             </NavLink>
-            <NavLink :href="route('admin.prefectures.index')" v-if="['all', 'show_prefecture'].some(permission => $page.props.auth.can.includes(permission))">
+            <NavLink :href="route('admin.prefectures.index')"
+                     v-if="['all', 'show_prefecture'].some(permission => $page.props.auth.can.includes(permission))"
+                     :active="$page.component.startsWith('Admin/Prefecture')"
+            >
                 Prefectures
             </NavLink>
             <NavLink v-if="['all', 'show_city'].some(permission => $page.props.auth.can.includes(permission))">
