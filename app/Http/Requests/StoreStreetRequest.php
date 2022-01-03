@@ -13,7 +13,7 @@ class StoreStreetRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,13 @@ class StoreStreetRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'prefecture_id' => ['required', 'numeric', 'min:1'],
+            'city_id' => ['required', 'numeric', 'min:1'],
+            'postcode_id' => ['required', 'numeric', 'min:1'],
+            'kanji' => ['required'],
+            'hiragana' => ['required'],
+            'katakana' => ['required'],
+            'romaji' => ['required'],
         ];
     }
 }

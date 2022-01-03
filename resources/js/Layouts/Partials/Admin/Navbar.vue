@@ -27,11 +27,14 @@
             >
                 Cities
             </NavLink>
-            <NavLink v-if="['all', 'show_street'].some(permission => $page.props.auth.can.includes(permission))">
-                Streets
-            </NavLink>
             <NavLink v-if="['all', 'show_postcode'].some(permission => $page.props.auth.can.includes(permission))">
                 Postcodes
+            </NavLink>
+            <NavLink :href="route('admin.streets.index')"
+                     v-if="['all', 'show_street'].some(permission => $page.props.auth.can.includes(permission))"
+                     :active="$page.component.startsWith('Admin/Street')"
+            >
+                Streets
             </NavLink>
             <NavLink v-if="['all', 'show_company'].some(permission => $page.props.auth.can.includes(permission))">
                 Companies

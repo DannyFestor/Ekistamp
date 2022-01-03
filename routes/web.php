@@ -91,6 +91,27 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->name('delete')
                 ->can('delete', 'city');
         });
+
+        Route::group(['as' => 'streets.', 'prefix' => '/streets'], function () {
+            Route::get('/', [\App\Http\Controllers\Admin\StreetController::class, 'index'])
+                ->name('index')
+                ->can('viewAny', \App\Models\Street::class);
+            Route::get('/create', [\App\Http\Controllers\Admin\StreetController::class, 'create'])
+                ->name('create')
+                ->can('create', \App\Models\Street::class);
+            Route::post('/', [\App\Http\Controllers\Admin\StreetController::class, 'store'])
+                ->name('store')
+                ->can('create', \App\Models\Street::class);
+            Route::get('/{street}/edit', [\App\Http\Controllers\Admin\StreetController::class, 'edit'])
+                ->name('edit')
+                ->can('update', 'street');
+            Route::put('/{street}', [\App\Http\Controllers\Admin\StreetController::class, 'update'])
+                ->name('update')
+                ->can('update', 'street');
+            Route::delete('/{street}', [\App\Http\Controllers\Admin\StreetController::class, 'destroy'])
+                ->name('delete')
+                ->can('delete', 'street');
+        });
     });
 });
 
