@@ -81,7 +81,7 @@
         </section>
 
         <div class="flex items-center justify-end mt-4">
-            <button @click.prevent="deleteStreet" class="px-4 py-2 bg-red-700 hover:bg-red-500 text-white rounded">
+            <button @click.prevent="deleteStreet" class="px-4 py-2 mr-4 bg-red-700 hover:bg-red-500 text-white rounded">
                 Delete
             </button>
             <button type="submit" class="px-4 py-2 bg-green-700 hover:bg-green-500 text-white rounded"

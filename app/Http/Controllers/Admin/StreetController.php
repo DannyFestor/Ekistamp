@@ -142,7 +142,7 @@ class StreetController extends Controller
                 ->when(request()->input('prefecture'), function ($query) {
                     $query->where('prefecture_id', '=', request()->input('prefecture'));
                 }, function ($query) use ($street) {
-                    $query->where('prefecture_id', '=', $street->city_id);
+                    $query->where('prefecture_id', '=', $street->prefecture_id);
                 })
                 ->orderBy('romaji')
                 ->get(),
