@@ -133,6 +133,27 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->name('delete')
                 ->can('delete', 'street');
         });
+
+        Route::group(['as' => 'companies.', 'prefix' => '/companies'], function () {
+            Route::get('/', [\App\Http\Controllers\Admin\CompanyController::class, 'index'])
+                ->name('index')
+                ->can('viewAny', \App\Models\Company::class);
+            Route::get('/create', [\App\Http\Controllers\Admin\CompanyController::class, 'create'])
+                ->name('create')
+                ->can('create', \App\Models\Company::class);
+            Route::post('/', [\App\Http\Controllers\Admin\CompanyController::class, 'store'])
+                ->name('store')
+                ->can('create', \App\Models\Company::class);
+            Route::get('/{company}/edit', [\App\Http\Controllers\Admin\CompanyController::class, 'edit'])
+                ->name('edit')
+                ->can('update', 'company');
+            Route::put('/{company}', [\App\Http\Controllers\Admin\CompanyController::class, 'update'])
+                ->name('update')
+                ->can('update', 'company');
+            Route::delete('/{company}', [\App\Http\Controllers\Admin\CompanyController::class, 'destroy'])
+                ->name('delete')
+                ->can('delete', 'company');
+        });
     });
 });
 

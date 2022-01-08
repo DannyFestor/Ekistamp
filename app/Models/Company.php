@@ -12,6 +12,9 @@ class Company extends Model
 
     protected $fillable = [
         'name',
+        'hiragana',
+        'katakana',
+        'romaji',
     ];
 
     public function lines() : HasMany
