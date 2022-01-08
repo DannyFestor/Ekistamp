@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 
 class StorePostcodeRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class StorePostcodeRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,16 @@ class StorePostcodeRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'prefecture_id' => ['required', 'numeric', 'min:1'],
+            'city_id' => ['required', 'numeric', 'min:1'],
+            'postcode' => ['required', 'string', 'size:7', 'regex:/^[0-9]{7}$/i'],
         ];
+    }
+
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'postcode' => Str::replace('-', '', $this->postcode),
+        ]);
     }
 }

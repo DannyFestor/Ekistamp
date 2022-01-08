@@ -16,8 +16,8 @@ class Postcode extends Model
     protected $fillable = [
         'prefecture_id',
         'city_id',
-        'post_code',
-        'post_code_prefix',
+        'postcode',
+        'postcode_prefix',
     ];
 
     public function prefecture() : BelongsTo

@@ -27,7 +27,10 @@
             >
                 Cities
             </NavLink>
-            <NavLink v-if="['all', 'show_postcode'].some(permission => $page.props.auth.can.includes(permission))">
+            <NavLink :href="route('admin.postcodes.index')"
+                     v-if="['all', 'show_postcode'].some(permission => $page.props.auth.can.includes(permission))"
+                     :active="$page.component.startsWith('Admin/Postcode')"
+            >
                 Postcodes
             </NavLink>
             <NavLink :href="route('admin.streets.index')"

@@ -92,6 +92,27 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->can('delete', 'city');
         });
 
+        Route::group(['as' => 'postcodes.', 'prefix' => '/postcodes'], function () {
+            Route::get('/', [\App\Http\Controllers\Admin\PostcodeController::class, 'index'])
+                ->name('index')
+                ->can('viewAny', \App\Models\Postcode::class);
+            Route::get('/create', [\App\Http\Controllers\Admin\PostcodeController::class, 'create'])
+                ->name('create')
+                ->can('create', \App\Models\Postcode::class);
+            Route::post('/', [\App\Http\Controllers\Admin\PostcodeController::class, 'store'])
+                ->name('store')
+                ->can('create', \App\Models\Postcode::class);
+            Route::get('/{postcode}/edit', [\App\Http\Controllers\Admin\PostcodeController::class, 'edit'])
+                ->name('edit')
+                ->can('update', 'postcode');
+            Route::put('/{postcode}', [\App\Http\Controllers\Admin\PostcodeController::class, 'update'])
+                ->name('update')
+                ->can('update', 'postcode');
+            Route::delete('/{postcode}', [\App\Http\Controllers\Admin\PostcodeController::class, 'destroy'])
+                ->name('delete')
+                ->can('delete', 'postcode');
+        });
+
         Route::group(['as' => 'streets.', 'prefix' => '/streets'], function () {
             Route::get('/', [\App\Http\Controllers\Admin\StreetController::class, 'index'])
                 ->name('index')
