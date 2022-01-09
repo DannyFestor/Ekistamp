@@ -17,7 +17,7 @@
     <section class="flex mb-4">
         <section class="flex flex-col flex-1 space-y-2" id="search">
             <div class="flex flex-wrap items-center">
-                <label class="w-full w-24" for="city_name">Postcode: </label>
+                <label class="w-full w-24" for="city_name">Company: </label>
                 <input v-model="companyName"
                        class="flex-1 border border-gray-400 focus:border-blue-400 outline-none px-4 py-2 rounded"
                        id="city_name"

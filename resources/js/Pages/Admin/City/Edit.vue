@@ -28,26 +28,27 @@
             </select>
             <div v-if="form.errors.prefecture_id" v-text="form.errors.prefecture_id" class="text-sm text-red-600"></div>
         </section>
-        <section class="flex flex-col">
-            <label for="kanji">漢字 Kanji</label>
-            <input id="kanji" name="kanji" type="text" v-model="form.kanji">
-            <div v-if="form.errors.kanji" v-text="form.errors.kanji" class="text-sm text-red-600"></div>
-        </section>
-        <section class="flex flex-col">
-            <label for="hiragana">ひらがな Hiragana</label>
-            <input id="hiragana" name="hiragana" type="text" v-model="form.hiragana">
-            <div v-if="form.errors.hiragana" v-text="form.errors.hiragana" class="text-sm text-red-600"></div>
-        </section>
-        <section class="flex flex-col">
-            <label for="katakana">カタカナ Katakana</label>
-            <input id="katakana" name="katakana" type="text" v-model="form.katakana">
-            <div v-if="form.errors.katakana" v-text="form.errors.katakana" class="text-sm text-red-600"></div>
-        </section>
-        <section class="flex flex-col">
-            <label for="romaji">ローマ字 Romaji</label>
-            <input id="romaji" name="romaji" type="text" v-model="form.romaji">
-            <div v-if="form.errors.romaji" v-text="form.errors.romaji" class="text-sm text-red-600"></div>
-        </section>
+
+        <FormInput id="kanji"
+                   v-model:value="form.kanji"
+                   :error="form.errors.kanji">
+            漢字 Kanji
+        </FormInput>
+        <FormInput id="hiragana"
+                   v-model:value="form.hiragana"
+                   :error="form.errors.hiragana">
+            ひらがな Hiragana
+        </FormInput>
+        <FormInput id="katakana"
+                   v-model:value="form.katakana"
+                   :error="form.errors.katakana">
+            カタカナ Katakana
+        </FormInput>
+        <FormInput id="romaji"
+                   v-model:value="form.romaji"
+                   :error="form.errors.romaji">
+            ローマ字 Romaji
+        </FormInput>
 
         <div class="flex items-center justify-end mt-4">
             <button @click.prevent="deletePrefecture" class="px-4 py-2 mr-4 bg-red-700 hover:bg-red-500 text-white rounded">Delete</button>
@@ -71,6 +72,7 @@ export default {
 
 <script setup>
 import Breadcrump from '../../../Shared/Breadcrump';
+import FormInput from '../../../Shared/Admin/Form/Input';
 import {useForm} from '@inertiajs/inertia-vue3';
 import {watch} from 'vue';
 import {Inertia} from '@inertiajs/inertia';
