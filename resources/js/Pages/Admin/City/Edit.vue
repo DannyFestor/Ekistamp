@@ -15,19 +15,13 @@
     </section>
 
     <form @submit.prevent="editPrefecture" class="flex flex-col space-y-4">
-        <section class="flex flex-col">
-            <label for="prefecture_id">都道府県 Prefecture</label>
-            <select id="prefecture_id" name="prefecture_id" type="text" v-model.number="form.prefecture_id" class="capitalize">
-                <option :value="0">---</option>
-                <option v-for="prefecture in prefectures"
-                        :value="prefecture.id"
-                        :key="prefecture.id"
-                >
-                    {{ prefecture.name }} - {{ prefecture.romaji }}
-                </option>
-            </select>
-            <div v-if="form.errors.prefecture_id" v-text="form.errors.prefecture_id" class="text-sm text-red-600"></div>
-        </section>
+        <FormSelect id="prefecture_id"
+                    v-model:value="form.prefecture_id"
+                    :options="prefectures"
+                    :error="form.errors.prefecture_id"
+        >
+            都道府県 Prefecture
+        </FormSelect>
 
         <FormInput id="kanji"
                    v-model:value="form.kanji"
@@ -73,6 +67,7 @@ export default {
 <script setup>
 import Breadcrump from '../../../Shared/Breadcrump';
 import FormInput from '../../../Shared/Admin/Form/Input';
+import FormSelect from '../../../Shared/Admin/Form/Select';
 import {useForm} from '@inertiajs/inertia-vue3';
 import {watch} from 'vue';
 import {Inertia} from '@inertiajs/inertia';

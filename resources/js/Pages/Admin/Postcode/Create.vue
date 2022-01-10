@@ -15,36 +15,22 @@
     </section>
 
     <form @submit.prevent="storePostcode" class="flex flex-col space-y-4">
-        <section class="flex flex-col">
-            <label for="prefecture_id">都道府県 Prefecture</label>
-            <select id="prefecture_id"
-                    name="prefecture_id"
-                    v-model.number="form.prefecture_id"
-                    @change="loadCities"
-                    class="capitalize">
-                <option value="0">---</option>
-                <option v-for="prefecture in prefectures"
-                        :value="prefecture.id"
-                        :key="prefecture.id"
-                >
-                    {{ prefecture.name }} - {{ prefecture.romaji }}
-                </option>
-            </select>
-            <div v-if="form.errors.prefecture_id" v-text="form.errors.prefecture_id" class="text-sm text-red-600"></div>
-        </section>
-        <section class="flex flex-col">
-            <label for="city_id">志村町郡 City</label>
-            <select id="city_id" name="city_id" v-model.number="form.city_id" class="capitalize" @change="loadPostcodes">
-                <option :value="0">---</option>
-                <option v-for="city in cities"
-                        :value="city.id"
-                        :key="city.id"
-                >
-                    {{ city.name }} - {{ city.romaji }}
-                </option>
-            </select>
-            <div v-if="form.errors.city_id" v-text="form.errors.city_id" class="text-sm text-red-600"></div>
-        </section>
+
+        <FormSelect id="prefecture_id"
+                    v-model:value.number="prefecture_id"
+                    :options="prefectures"
+                    :error="form.errors.prefecture_id"
+        >
+            都道府県 Prefecture
+        </FormSelect>
+
+        <FormSelect id="city_id"
+                    v-model:value.number="form.city_id"
+                    :options="cities"
+                    :error="form.errors.city_id"
+        >
+            志村町郡 City
+        </FormSelect>
 
         <FormInput id="postcode"
                    v-model:value="form.postcode"
@@ -73,8 +59,9 @@ export default {
 <script setup>
 import Breadcrump from '../../../Shared/Breadcrump';
 import FormInput from '../../../Shared/Admin/Form/Input';
+import FormSelect from '../../../Shared/Admin/Form/Select';
 import {useForm} from '@inertiajs/inertia-vue3';
-import {watch} from 'vue';
+import {ref, watch} from 'vue';
 import {debounce} from 'lodash';
 import {Inertia} from '@inertiajs/inertia';
 
@@ -84,14 +71,17 @@ let props = defineProps({
     filters: Object,
 });
 
+const prefecture_id = ref(parseInt(props.filters.prefecture) || 0);
+const city_id = ref(parseInt(props.filters.city) || 0);
+
 let form = useForm({
-    prefecture_id: parseInt(props.filters.prefecture) || 0,
-    city_id: parseInt(props.filters.city) || 0,
+    prefecture_id: prefecture_id,
+    city_id: city_id,
     postcode: null,
 });
 
-let loadCities = () => {
-    form.reset('city_id');
+watch(prefecture_id, (value) => {
+    city_id.value = 0;
 
     Inertia.get(route('admin.postcodes.create'), {
             'prefecture': form.prefecture_id ?? null,
@@ -101,7 +91,7 @@ let loadCities = () => {
             preserveState: true,
             replace: true,
         });
-};
+})
 
 let storePostcode = () => {
     form.post(route(
