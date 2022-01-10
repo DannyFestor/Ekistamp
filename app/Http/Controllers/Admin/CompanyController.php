@@ -67,7 +67,7 @@ class CompanyController extends Controller
     public function store(StoreCompanyRequest $request) : RedirectResponse
     {
         $company = Company::create([
-            'name' => $request->name,
+            'name' => $request->kanji,
             'hiragana' => $request->hiragana,
             'katakana' => $request->katakana,
             'romaji' => $request->romaji,
@@ -105,7 +105,7 @@ class CompanyController extends Controller
     public function update(UpdateCompanyRequest $request, Company $company)
     {
         $company->fill([
-            'name' => $request->name,
+            'name' => $request->kanji,
             'hiragana' => $request->hiragana,
             'katakana' => $request->katakana,
             'romaji' => $request->romaji,

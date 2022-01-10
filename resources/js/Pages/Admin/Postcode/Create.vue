@@ -45,11 +45,12 @@
             </select>
             <div v-if="form.errors.city_id" v-text="form.errors.city_id" class="text-sm text-red-600"></div>
         </section>
-        <section class="flex flex-col">
-            <label for="postcode">郵便番号</label>
-            <input id="postcode" name="postcode" type="text" v-model="form.postcode">
-            <div v-if="form.errors.postcode" v-text="form.errors.postcode" class="text-sm text-red-600"></div>
-        </section>
+
+        <FormInput id="postcode"
+                   v-model:value="form.postcode"
+                   :error="form.errors.postcode">
+            郵便番号 Postcode
+        </FormInput>
 
         <div class="flex items-center justify-end mt-4">
             <button type="submit" class="px-4 py-2 bg-green-700 text-white rounded"
@@ -71,6 +72,7 @@ export default {
 
 <script setup>
 import Breadcrump from '../../../Shared/Breadcrump';
+import FormInput from '../../../Shared/Admin/Form/Input';
 import {useForm} from '@inertiajs/inertia-vue3';
 import {watch} from 'vue';
 import {debounce} from 'lodash';
