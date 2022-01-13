@@ -1,9 +1,9 @@
 <template>
     <section ref="textsearch" class="flex flex-col relative">
         <label :for="id"><slot /></label>
-        <input class="relative" type="text" :value="search" @input="$emit('update:search', $event.target.value)">
+        <input class="relative" type="text" @keydown.esc.tab="showOptions = false" :value="search" @input="$emit('update:search', $event.target.value)">
         <div class="relative">
-            <article v-if="showOptions" class="absolute bg-white rounded">
+            <article v-if="showOptions" class="absolute bg-white rounded shadow">
                 <div
                     @click="$emit('update:value', 0); label = ''; showOptions = false"
                     class="p-4 hover:bg-gray-200 cursor-pointer"
