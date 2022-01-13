@@ -23,7 +23,7 @@ class CompanyController extends Controller
     {
         return Inertia::render('Admin/Company/Index', [
             'companies' => Company::query()
-                ->select(['id', 'name'])
+                ->select(['id', 'name', 'hiragana', 'katakana', 'romaji'])
                 ->withCount('lines')
                 ->when(request()->input('company'), function ($query, $value) {
                     $query->where(function (Builder $query) use ($value) {

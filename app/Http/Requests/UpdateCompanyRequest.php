@@ -24,7 +24,7 @@ class UpdateCompanyRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string'],
+            'kanji' => ['required', 'string'],
             'hiragana' => ['nullable', 'string'],
             'katakana' => ['nullable', 'string'],
             'romaji' => ['nullable', 'string'],

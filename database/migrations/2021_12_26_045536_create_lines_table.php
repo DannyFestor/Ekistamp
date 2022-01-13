@@ -18,6 +18,9 @@ class CreateLinesTable extends Migration
             $table->foreignId('prefecture_id')->references('id')->on('prefectures');
             $table->foreignId('company_id')->references('id')->on('companies');
             $table->string('name');
+            $table->string('hiragana')->nullable();
+            $table->string('katakana')->nullable();
+            $table->string('romaji')->nullable();
             $table->timestamps();
         });
     }

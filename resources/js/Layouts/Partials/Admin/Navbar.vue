@@ -45,7 +45,10 @@
             >
                 Companies
             </NavLink>
-            <NavLink v-if="['all', 'show_line'].some(permission => $page.props.auth.can.includes(permission))">
+            <NavLink :href="route('admin.lines.index')"
+                     v-if="['all', 'show_line'].some(permission => $page.props.auth.can.includes(permission))"
+                     :active="$page.component.startsWith('Admin/Line')"
+            >
                 Lines
             </NavLink>
             <NavLink v-if="['all', 'show_station'].some(permission => $page.props.auth.can.includes(permission))">

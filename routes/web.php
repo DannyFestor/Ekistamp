@@ -154,6 +154,27 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->name('delete')
                 ->can('delete', 'company');
         });
+
+        Route::group(['as' => 'lines.', 'prefix' => '/lines'], function () {
+            Route::get('/', [\App\Http\Controllers\Admin\LineController::class, 'index'])
+                ->name('index')
+                ->can('viewAny', \App\Models\Line::class);
+            Route::get('/create', [\App\Http\Controllers\Admin\LineController::class, 'create'])
+                ->name('create')
+                ->can('create', \App\Models\Line::class);
+            Route::post('/', [\App\Http\Controllers\Admin\LineController::class, 'store'])
+                ->name('store')
+                ->can('create', \App\Models\Line::class);
+            Route::get('/{line}/edit', [\App\Http\Controllers\Admin\LineController::class, 'edit'])
+                ->name('edit')
+                ->can('update', 'line');
+            Route::put('/{line}', [\App\Http\Controllers\Admin\LineController::class, 'update'])
+                ->name('update')
+                ->can('update', 'line');
+            Route::delete('/{line}', [\App\Http\Controllers\Admin\LineController::class, 'destroy'])
+                ->name('delete')
+                ->can('delete', 'line');
+        });
     });
 });
 

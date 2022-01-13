@@ -16,6 +16,9 @@ class Line extends Model
         'prefecture_id',
         'company_id',
         'name',
+        'hiragana',
+        'katakana',
+        'romaji',
     ];
 
     public function prefecture() : BelongsTo

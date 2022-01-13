@@ -3,8 +3,7 @@
         <label :for="id"><slot /></label>
         <select :id="id"
                 :name="id"
-                :value="value"
-                @change="$emit('update:value', $event.target.value)"
+                @change="$emit('update:value', parseInt($event.target.value))"
                 class="capitalize"
         >
             <option value="0">---</option>
