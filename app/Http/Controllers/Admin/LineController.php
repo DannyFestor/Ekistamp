@@ -57,6 +57,7 @@ class LineController extends Controller
                 'companies' => fn () => Company::query()
                     ->select(['id', 'name', 'hiragana', 'romaji'])
                     ->when(request()->input('company'), function ($query, $value) {
+                        logger()->debug($value);
                         $search = Str::lower($value);
                         $search = Str::replace('-', '', $search);
                         $query->whereRaw("LOWER(name) like '%$search%'");

@@ -23,6 +23,30 @@
             都道府県 Prefecture
         </FormSelect>
 
+        <section class="flex flex-col relative" id="searchCompany">
+            <input class="relative" type="text" v-model="searchCompany">
+            <div class="relative">
+                <article v-if="showCompanyOptions" class="absolute bg-white rounded">
+                    <div @click="form.company_id = 0; selectedCompany.name = null; selectedCompany.romaji = null, showCompanyOptions = false"
+                         class="p-4 hover:bg-gray-200 cursor-pointer"
+                    >
+                        ---
+                    </div>
+                    <div @click="form.company_id = company.id; selectedCompany.name = company.name; selectedCompany.romaji = company.romaji; showCompanyOptions = false"
+                         v-for="company in companies"
+                         :key="company.id"
+                         class="p-4 hover:bg-gray-200 cursor-pointer"
+                    >
+                        {{ [company.name, company.romaji].filter(n => n).join(' - ') }}
+                    </div>
+                </article>
+                <article v-if="form.company_id > 0">
+                    {{ [selectedCompany.name, selectedCompany.romaji].filter(n => n).join(' - ') }}
+                </article>
+            </div>
+            <div v-if="form.errors.company_id" class="text-sm text-red-600">{{ form.errors.company_id }}</div>
+        </section>
+
         <FormInput id="kanji"
                    v-model:value="form.kanji"
                    :error="form.errors.kanji">
@@ -67,7 +91,7 @@ import Breadcrump from '../../../Shared/Breadcrump';
 import FormInput from '../../../Shared/Admin/Form/Input';
 import FormSelect from '../../../Shared/Admin/Form/Select';
 import {useForm} from '@inertiajs/inertia-vue3';
-import {ref, watch} from 'vue';
+import {onBeforeMount, onBeforeUnmount, onMounted, onUnmounted, ref, watch} from 'vue';
 import {debounce} from 'lodash';
 import {Inertia} from '@inertiajs/inertia';
 
@@ -76,6 +100,10 @@ let props = defineProps({
     companies: Object,
     filters: Object,
 });
+
+const searchCompany = ref(props.filters.company);
+const selectedCompany = ref({ id: 0, name: '', romaji: '' });
+const showCompanyOptions = ref(false);
 
 let form = useForm({
     prefecture_id: 0,
@@ -86,6 +114,16 @@ let form = useForm({
     romaji: null,
 });
 
+watch(searchCompany, debounce((value) => {
+    Inertia.get(route('admin.lines.create'), {
+            'company': searchCompany.value,
+        },
+        {
+            only: ['companies'],
+            preserveState: true,
+            replace: true,
+        });
+}, 300));
 let storeLine = () => {
     form.post(route(
         'admin.lines.store',
@@ -97,4 +135,22 @@ let storeLine = () => {
         },
     ));
 };
+
+const clickOutsideEvent = (e) => {
+    const searchCompany = document.querySelector('#searchCompany');
+    if(searchCompany === e.target || searchCompany.contains(e.target)) {
+        showCompanyOptions.value = true;
+    } else {
+        showCompanyOptions.value = false;
+    }
+};
+
+onBeforeMount(() => {
+    document.addEventListener('click', clickOutsideEvent);
+})
+
+onBeforeUnmount(() => {
+    document.removeEventListener('click', clickOutsideEvent);
+})
+
 </script>
