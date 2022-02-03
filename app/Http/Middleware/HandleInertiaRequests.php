@@ -43,7 +43,13 @@ class HandleInertiaRequests extends Middleware
                 'can' => $request->routeIs('admin.*') ?
                     Auth::user()->permissions()->pluck('permissions.name')->toArray()
                     : Auth::user()->permissions()->whereIn('permissions.name', ['all', 'access_admin'])->pluck('permissions.name')->toArray(),
-            ] : null
+            ] : null,
+            'flash' => function () use ($request) {
+                return [
+                    'success' => $request->session()->get('success'),
+                    'error' => $request->session()->get('error'),
+                ];
+            }
         ]);
     }
 }
