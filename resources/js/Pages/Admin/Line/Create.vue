@@ -1,5 +1,5 @@
 <template>
-    <Head title="Line Index" />
+    <Head title="Line Create" />
 
     <section class="flex flex-wrap">
         <Breadcrump :href="route('admin.lines.index', { line: filters.line })">

@@ -8,6 +8,7 @@ use App\Models\Company;
 use App\Models\Line;
 use App\Models\Prefecture;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -67,7 +68,7 @@ class LineController extends Controller
                     ->limit(5)
                     ->get()
                 ,
-                'filters' => request()->only(['company']),
+                'filters' => request()->only(['line']),
             ]
         );
     }
@@ -75,34 +76,55 @@ class LineController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreLineRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
+     * @param StoreLineRequest $request
      *
-     * @param  \App\Models\Line  $line
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function show(Line $line)
+    public function store(StoreLineRequest $request) : RedirectResponse
     {
-        //
+        $line = Line::create([
+            'prefecture_id' => $request->prefecture_id,
+            'company_id' => $request->company_id,
+            'name' => $request->kanji,
+            'hiragana' => $request->hiragana,
+            'katakana' => $request->katakana,
+            'romaji' => $request->romaji,
+        ]);
+        return redirect()
+            ->route('admin.lines.index', [
+                'line' => $line->name,
+            ])
+            ->with('success', 'Line was created');
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Line  $line
-     * @return \Illuminate\Http\Response
+     *
+     * @return Response
      */
     public function edit(Line $line)
     {
-        //
+        $line->load(['company']);
+        return Inertia::render('Admin/Line/Edit', [
+            'line' => $line,
+            'prefectures' => Prefecture::select(['id','name','hiragana','romaji'])->get(),
+            'companies' => fn () => Company::query()
+                ->select(['id', 'name', 'hiragana', 'romaji'])
+                ->when(request()->input('company'), function ($query, $value) {
+                    logger()->debug($value);
+                    $search = Str::lower($value);
+                    $search = Str::replace('-', '', $search);
+                    $query->whereRaw("LOWER(name) like '%$search%'");
+                    $query->orWhereRaw("LOWER(hiragana) like '%$search%'");
+                    $query->orWhereRaw("LOWER(romaji) like '%$search%'");
+                })
+                ->limit(5)
+                ->get()
+            ,
+            'filters' => request()->only(['line']),
+        ]);
     }
 
     /**
@@ -110,21 +132,41 @@ class LineController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Line  $line
-     * @return \Illuminate\Http\Response
+     *
+     * @return RedirectResponse
      */
     public function update(Request $request, Line $line)
     {
-        //
+        $line->fill([
+            'prefecture_id' => $request->prefecture_id,
+            'company_id' => $request->company_id,
+            'name' => $request->kanji,
+            'hiragana' => $request->hiragana,
+            'katakana' => $request->katakana,
+            'romaji' => $request->romaji,
+        ]);
+        $line->save();
+
+        return redirect()
+            ->route('admin.lines.index', [
+                'line' => $line->name,
+            ])
+            ->with('success', 'Line was edited');
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Line  $line
-     * @return \Illuminate\Http\Response
+     *
+     * @return RedirectResponse
      */
     public function destroy(Line $line)
     {
-        //
+        $line->delete();
+
+        return redirect()
+            ->route('admin.lines.index')
+            ->with('success', 'Line was deleted');
     }
 }

@@ -1,7 +1,7 @@
 <template>
     <section ref="textsearch" class="flex flex-col relative">
         <label :for="id"><slot /></label>
-        <input class="relative" type="text" @keydown.esc.tab="showOptions = false" :value="search" @input="$emit('update:search', $event.target.value)">
+        <input class="relative" type="text" @keydown.esc.tab="showOptions = false" :value="props.search" @input="$emit('update:search', $event.target.value)">
         <div class="relative">
             <article v-if="showOptions" class="absolute bg-white rounded shadow">
                 <div
@@ -35,7 +35,7 @@ const showOptions = ref(false);
 const label = ref('')
 const textsearch = ref(null);
 
-defineProps({
+const props = defineProps({
     id: String,
     options: {
         default: {},
@@ -45,7 +45,10 @@ defineProps({
         default: 'text',
         type: String,
     },
-    search: String,
+    search: {
+        default: null,
+        type: String,
+    },
     value: Number,
     error: {
         default: null,

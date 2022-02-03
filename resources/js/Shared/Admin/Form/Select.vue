@@ -3,6 +3,7 @@
         <label :for="id"><slot /></label>
         <select :id="id"
                 :name="id"
+                :value="props.value"
                 @change="$emit('update:value', parseInt($event.target.value))"
                 class="capitalize"
         >
@@ -19,7 +20,7 @@
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
     id: String,
     options: {
         default: [],
