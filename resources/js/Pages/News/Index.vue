@@ -1,5 +1,3 @@
-<template>
-This is the News Page
-</template>
+<template>This is the News Page</template>
 
 <script setup></script>

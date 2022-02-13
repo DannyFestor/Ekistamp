@@ -1,5 +1,4 @@
 <template>
-    <Head title="Dashboard" />
-    Dashboard
+  <Head title="Dashboard" />
+  Dashboard
 </template>
-

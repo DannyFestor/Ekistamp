@@ -1,5 +1,5 @@
 <template>
-    <Head title="Welcome" />
+  <Head title="Welcome" />
 
-    Welcome to Ekistamp.info
+  Welcome to Ekistamp.info
 </template>

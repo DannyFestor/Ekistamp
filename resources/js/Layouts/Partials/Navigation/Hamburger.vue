@@ -1,22 +1,29 @@
 <template>
-    <button @click="$emit('toggle-nav')"
-            class="fixed lg:hidden z-50 bottom-8 right-8 flex items-center space-x-2 focus:outline-none border rounded px-2 py-6 bg-white">
+  <button
+    @click="$emit('toggle-nav')"
+    class="fixed bottom-8 right-8 z-50 flex items-center space-x-2 rounded border bg-white px-2 py-6 focus:outline-none lg:hidden"
+  >
+    <div class="relative flex w-8 items-center justify-center">
+      <span
+        :class="open ? 'translate-y-0 rotate-45' : '-translate-y-2'"
+        class="absolute h-px w-full transform bg-current transition"
+      ></span>
 
-        <div class="w-8 flex items-center justify-center relative">
-            <span :class="open ? 'translate-y-0 rotate-45' : '-translate-y-2'"
-                  class="transform transition w-full h-px bg-current absolute"></span>
+      <span
+        :class="open ? 'translate-x-3 opacity-0' : 'opacity-100'"
+        class="absolute h-px w-full transform bg-current transition"
+      ></span>
 
-            <span :class="open ? 'opacity-0 translate-x-3' : 'opacity-100'"
-                  class="transform transition w-full h-px bg-current absolute"></span>
-
-            <span :class="open ? 'translate-y-0 -rotate-45' : 'translate-y-2'"
-                  class="transform transition w-full h-px bg-current absolute"></span>
-        </div>
-    </button>
+      <span
+        :class="open ? 'translate-y-0 -rotate-45' : 'translate-y-2'"
+        class="absolute h-px w-full transform bg-current transition"
+      ></span>
+    </div>
+  </button>
 </template>
 
 <script setup>
 defineProps({
-    open: Boolean,
+  open: Boolean,
 });
 </script>

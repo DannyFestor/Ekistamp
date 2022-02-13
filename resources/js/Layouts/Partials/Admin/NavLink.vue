@@ -1,23 +1,23 @@
 <template>
-    <Link class="hover:bg-green-100 px-4 flex items-center lg:justify-center h-16"
-          :class="{
-            'border-r-8 border-green-600': active,
-             'lg:border-r-0 lg:border-b-2': !$page.component.startsWith('Admin')
-          }"
-    >
-        <slot />
-    </Link>
+  <Link
+    class="flex h-16 items-center px-4 hover:bg-green-100 lg:justify-center"
+    :class="{
+      'border-r-8 border-green-600': active,
+      'lg:border-r-0 lg:border-b-2': !$page.component.startsWith('Admin'),
+    }"
+  >
+    <slot />
+  </Link>
 </template>
 
 <script setup>
 let props = defineProps({
-        active: Boolean,
-    },
-);
+  active: Boolean,
+});
 </script>
 
 <style>
 svg {
-    margin-right: 0.5rem;
+  margin-right: 0.5rem;
 }
 </style>
