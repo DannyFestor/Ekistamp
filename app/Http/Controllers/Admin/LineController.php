@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLineRequest;
+use App\Http\Requests\UpdateLineRequest;
 use App\Models\Company;
 use App\Models\Line;
 use App\Models\Prefecture;
@@ -135,7 +136,7 @@ class LineController extends Controller
      *
      * @return RedirectResponse
      */
-    public function update(Request $request, Line $line)
+    public function update(UpdateLineRequest $request, Line $line)
     {
         $line->fill([
             'prefecture_id' => $request->prefecture_id,

@@ -1,62 +1,62 @@
 <template>
-  <Head title="Lines Index" />
+  <Head title='Lines Index' />
 
-  <section class="flex flex-wrap">
-    <Breadcrump> 路線 Lines </Breadcrump>
+  <section class='flex flex-wrap'>
+    <Breadcrump> 路線 Lines</Breadcrump>
   </section>
 
-  <section class="my-4 flex justify-end">
+  <section class='my-4 flex justify-end'>
     <Link
       :href="route('admin.lines.create', { _query: { line: lineName } })"
-      class="rounded bg-green-700 px-4 py-2 text-white hover:bg-green-500"
+      class='rounded bg-green-700 px-4 py-2 text-white hover:bg-green-500'
     >
       New Line
     </Link>
   </section>
 
-  <section class="mb-4 flex">
-    <section class="flex flex-1 flex-col space-y-2" id="search">
-      <div class="flex flex-wrap items-center">
-        <label class="w-full w-24" for="line_name">Line: </label>
+  <section class='mb-4 flex'>
+    <section class='flex flex-1 flex-col space-y-2' id='search'>
+      <div class='flex flex-wrap items-center'>
+        <label class='w-full w-24' for='line_name'>Line: </label>
         <input
-          v-model="lineName"
-          class="flex-1 rounded border border-gray-400 px-4 py-2 outline-none focus:border-blue-400"
-          id="line_name"
-          name="line_name"
-          type="text"
+          v-model='lineName'
+          class='flex-1 rounded border border-gray-400 px-4 py-2 outline-none focus:border-blue-400'
+          id='line_name'
+          name='line_name'
+          type='text'
         />
       </div>
     </section>
     <button
-      @click="clearForm"
-      class="ml-4 w-16 rounded bg-green-700 text-white hover:bg-green-500"
+      @click='clearForm'
+      class='ml-4 w-16 rounded bg-green-700 text-white hover:bg-green-500'
     >
       Clear
     </button>
   </section>
 
-  <section class="grid grid-cols-1 gap-2">
+  <section class='grid grid-cols-1 gap-2'>
     <div
-      @click="open(line.id)"
-      v-for="line in lines.data"
-      :key="line.id"
-      class="grid cursor-pointer grid-cols-2 rounded border-gray-200 p-4 shadow hover:bg-gray-200 md:grid-cols-4"
+      @click='open(line.id)'
+      v-for='line in lines.data'
+      :key='line.id'
+      class='grid cursor-pointer grid-cols-2 rounded border-gray-200 p-4 shadow hover:bg-gray-200 md:grid-cols-4'
     >
-      <div class="text-xl text-green-700">{{ line.name }}</div>
-      <div class="text-xl text-green-700">
+      <div class='text-xl text-green-700'>{{ line.name }}</div>
+      <div class='text-xl text-green-700'>
         {{ line.hiragana ?? 'N/A' }}
       </div>
-      <div class="text-xl text-green-700">{{ line.romaji ?? 'N/A' }}</div>
-      <div class="text-xl text-green-700">
+      <div class='text-xl text-green-700'>{{ line.romaji ?? 'N/A' }}</div>
+      <div class='text-xl text-green-700'>
         {{ line.prefecture.name }} ({{ line.prefecture.romaji }})
       </div>
-      <div class="text-xl text-green-700">
+      <div class='text-xl text-green-700'>
         {{ line.company.name }} ({{ line.company.romaji }})
       </div>
     </div>
   </section>
 
-  <Pagination :links="lines.links" />
+  <Pagination :links='lines.links' />
 </template>
 
 <script>
@@ -83,7 +83,7 @@ let lineName = ref(props.filters.line);
 
 watch(
   lineName,
-  debounce(function (value) {
+  debounce(function(value) {
     Inertia.get(
       route('admin.lines.index'),
       {
@@ -93,9 +93,9 @@ watch(
         only: ['lines'],
         preserveState: true,
         replace: true,
-      }
+      },
     );
-  }, 300)
+  }, 300),
 );
 
 let open = (id) => {
@@ -105,7 +105,7 @@ let open = (id) => {
       _query: {
         line: lineName.value,
       },
-    })
+    }),
   );
 };
 

@@ -19,13 +19,13 @@ class CreateStationsTable extends Migration
             $table->foreignId('city_id')->references('id')->on('cities');
             $table->foreignId('street_id')->nullable()->references('id')->on('streets');
             $table->string('name');
-            $table->string('hiragana');
-            $table->string('katakana');
+            $table->string('hiragana')->nullable();
+            $table->string('katakana')->nullable();
             $table->string('katakana_half')->nullable();
-            $table->string('romaji');
-            $table->string('memo');
-            $table->double('latitude');
-            $table->double('altitude');
+            $table->string('romaji')->nullable();
+            $table->string('memo')->nullable();
+            $table->double('latitude')->nullable();
+            $table->double('altitude')->nullable();
             $table->timestamps();
         });
     }

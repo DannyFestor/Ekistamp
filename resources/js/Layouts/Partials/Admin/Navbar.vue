@@ -97,6 +97,7 @@
         Lines
       </NavLink>
       <NavLink
+        :href="route('admin.stations.index')"
         v-if="
           ['all', 'show_station'].some((permission) =>
             $page.props.auth.can.includes(permission)

@@ -13,7 +13,7 @@ class StoreStationRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,13 @@ class StoreStationRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'prefecture_id' => ['required', 'numeric', 'min:1'],
+            'city_id' => ['required', 'numeric', 'min:1'],
+            'street_id' => ['required', 'numeric', 'min:1'],
+            'kanji' => ['required', 'string'],
+            'hiragana' => ['nullable', 'string'],
+            'katakana' => ['nullable', 'string'],
+            'romaji' => ['nullable', 'string'],
         ];
     }
 }

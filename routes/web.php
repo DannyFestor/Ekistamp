@@ -1,8 +1,5 @@
 <?php
 
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\StampController;
-use App\Http\Controllers\StationController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -174,6 +171,27 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::delete('/{line}', [\App\Http\Controllers\Admin\LineController::class, 'destroy'])
                 ->name('delete')
                 ->can('delete', 'line');
+        });
+
+        Route::group(['as' => 'stations.', 'prefix' => '/stations'], function () {
+            Route::get('/', [\App\Http\Controllers\Admin\StationController::class, 'index'])
+                ->name('index')
+                ->can('viewAny', \App\Models\Station::class);
+            Route::get('/create', [\App\Http\Controllers\Admin\StationController::class, 'create'])
+                ->name('create')
+                ->can('create', \App\Models\Station::class);
+            Route::post('/', [\App\Http\Controllers\Admin\StationController::class, 'store'])
+                ->name('store')
+                ->can('create', \App\Models\Station::class);
+            Route::get('/{station}/edit', [\App\Http\Controllers\Admin\StationController::class, 'edit'])
+                ->name('edit')
+                ->can('update', 'station');
+            Route::put('/{station}', [\App\Http\Controllers\Admin\StationController::class, 'update'])
+                ->name('update')
+                ->can('update', 'station');
+            Route::delete('/{station}', [\App\Http\Controllers\Admin\StationController::class, 'destroy'])
+                ->name('delete')
+                ->can('delete', 'station');
         });
     });
 });
