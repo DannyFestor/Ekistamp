@@ -20,6 +20,15 @@ class StationController extends Controller
     public function index() : Response
     {
         return Inertia::render('Admin/Station/Index', [
+            'prefectures' => fn() => Prefecture::orderBy('id')->get(),
+            'cities' => fn() => City::query()
+                ->when(request()->input('prefecture'), function ($query) {
+                    $query->where('prefecture_id', '=', request()->input('prefecture'));
+                }, function ($query) {
+                    $query->where('prefecture_id', '=', 0);
+                })
+                ->orderBy('romaji')
+                ->get(),
             'stations' => Station::query()
                 ->select([
                     'id',
@@ -36,6 +45,15 @@ class StationController extends Controller
                     'city:id,name,romaji',
                     'street:id,name,romaji',
                 ])
+                ->when(request()->input('prefecture'), function ($query, $value) {
+                    $query->where('prefecture_id', '=', $value);
+                })
+                ->when(request()->input('city'), function ($query, $value) {
+                    $query->where('city_id', '=', $value);
+                })
+                ->when(request()->input('street'), function ($query, $value) {
+                    $query->where('street_id', '=', $value);
+                })
                 ->when(request()->input('station'), function ($query, $value) {
                     $query->where(function (Builder $query) use ($value) {
                         $search = Str::lower($value);
@@ -49,7 +67,7 @@ class StationController extends Controller
                 ->paginate(24)
                 ->withQueryString()
             ,
-            'filters' => request()->only(['station']),
+            'filters' => request()->only(['station', 'prefecture', 'city']),
         ]);
     }
 

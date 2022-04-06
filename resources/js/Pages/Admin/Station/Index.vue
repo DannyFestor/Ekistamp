@@ -19,6 +19,40 @@
   <section class="mb-4 flex">
     <section class="flex flex-1 flex-col space-y-2" id="search">
       <div class="flex flex-wrap items-center">
+        <label class="w-full w-24" for="prefecture_id">Prefecture: </label>
+        <select
+          v-model.number="prefectureId"
+          class="flex-1 rounded border border-gray-400 px-4 py-2 capitalize outline-none focus:border-blue-400"
+          id="prefecture_id"
+          name="prefecture_id"
+          type="text"
+        >
+          <option :value="0">---</option>
+          <option
+            v-for="prefecture in prefectures"
+            :key="prefecture.id"
+            :value="prefecture.id"
+          >
+            {{ prefecture.name }} - {{ prefecture.romaji }}
+          </option>
+        </select>
+      </div>
+      <div class="flex flex-wrap items-center">
+        <label class="w-full w-24" for="city_id">City: </label>
+        <select
+          v-model.number="cityId"
+          class="flex-1 rounded border border-gray-400 px-4 py-2 capitalize outline-none focus:border-blue-400"
+          id="city_id"
+          name="city_id"
+          type="text"
+        >
+          <option :value="0">---</option>
+          <option v-for="city in cities" :key="city.id" :value="city.id">
+            {{ city.name }} - {{ city.romaji }}
+          </option>
+        </select>
+      </div>
+      <div class="flex flex-wrap items-center">
         <label class="w-full w-24" for="station_name">Station: </label>
         <input
           v-model="stationName"
@@ -81,24 +115,34 @@ import { Inertia } from '@inertiajs/inertia';
 
 let props = defineProps({
   stations: Object,
+  prefectures: Object,
+  cities: Object,
   filters: Object,
 });
 
 let stationName = ref(props.filters.station);
+let cityId = ref(props.filters.city || 0);
+let prefectureId = ref(props.filters.prefecture || 0);
+
+watch(prefectureId, () => {
+  cityId.value = 0;
+});
 
 watch(
-  stationName,
-  debounce(function (value) {
+  [stationName, cityId, prefectureId],
+  debounce(function (values) {
     Inertia.get(
       route('admin.stations.index'),
       {
-        station: value,
+        station: values[0],
+        city: values[1] > 0 ? values[1] : null,
+        prefecture: values[2] > 0 ? values[2] : null,
       },
       {
-        only: ['stations'],
+        only: ['stations', 'cities'],
         preserveState: true,
         replace: true,
-      }
+      },
     );
   }, 300)
 );
@@ -115,6 +159,8 @@ let open = (id) => {
 };
 
 let clearForm = () => {
+  prefectureId.value = 0;
+  cityId.value = 0;
   stationName.value = null;
 };
 </script>

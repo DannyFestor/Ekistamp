@@ -14,6 +14,15 @@
     <section class="flex flex-col">
       <NavLink
         v-if="
+          ['all', 'show_user'].some((permission) =>
+            $page.props.auth.can.includes(permission)
+          )
+        "
+      >
+        Users
+      </NavLink>
+      <NavLink
+        v-if="
           ['all', 'show_role'].some((permission) =>
             $page.props.auth.can.includes(permission)
           )
