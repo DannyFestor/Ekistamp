@@ -9,7 +9,7 @@
       @input="$emit('update:search', $event.target.value)"
     />
     <div class="relative">
-      <article v-if="showOptions" class="absolute rounded bg-white shadow">
+      <article v-if="showOptions" class="absolute rounded bg-white shadow z-10">
         <div
           @click="
             $emit('update:value', 0);

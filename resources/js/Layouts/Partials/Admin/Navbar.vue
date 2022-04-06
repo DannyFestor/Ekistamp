@@ -107,6 +107,7 @@
         Stations
       </NavLink>
       <NavLink
+        :href="route('admin.stamps.index')"
         v-if="
           ['all', 'show_stamp'].some((permission) =>
             $page.props.auth.can.includes(permission)

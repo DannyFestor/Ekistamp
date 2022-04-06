@@ -193,6 +193,27 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->name('delete')
                 ->can('delete', 'station');
         });
+
+        Route::group(['as' => 'stamps.', 'prefix' => '/stamps'], function () {
+            Route::get('/', [\App\Http\Controllers\Admin\StampController::class, 'index'])
+                ->name('index')
+                ->can('viewAny', \App\Models\Stamp::class);
+            Route::get('/create', [\App\Http\Controllers\Admin\StampController::class, 'create'])
+                ->name('create')
+                ->can('create', \App\Models\Stamp::class);
+            Route::post('/', [\App\Http\Controllers\Admin\StampController::class, 'store'])
+                ->name('store')
+                ->can('create', \App\Models\Stamp::class);
+            Route::get('/{stamp}/edit', [\App\Http\Controllers\Admin\StampController::class, 'edit'])
+                ->name('edit')
+                ->can('update', 'stamp');
+            Route::put('/{stamp}', [\App\Http\Controllers\Admin\StampController::class, 'update'])
+                ->name('update')
+                ->can('update', 'stamp');
+            Route::delete('/{stamp}', [\App\Http\Controllers\Admin\StampController::class, 'destroy'])
+                ->name('delete')
+                ->can('delete', 'stamp');
+        });
     });
 });
 
