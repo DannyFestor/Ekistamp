@@ -24,10 +24,6 @@ const props = defineProps({
     default: [],
     type: Object,
   },
-  type: {
-    default: 'text',
-    type: String,
-  },
   value: Number,
   error: {
     default: null,

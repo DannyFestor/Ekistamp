@@ -27,7 +27,6 @@
           class="flex-1 rounded border border-gray-400 px-4 py-2 capitalize outline-none focus:border-blue-400"
           id="prefecture_id"
           name="prefecture_id"
-          type="text"
         >
           <option :value="0">---</option>
           <option
@@ -46,7 +45,6 @@
           class="flex-1 rounded border border-gray-400 px-4 py-2 outline-none focus:border-blue-400"
           id="city_name"
           name="city_name"
-          type="text"
         />
       </div>
     </section>
