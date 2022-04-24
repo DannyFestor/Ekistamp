@@ -13,7 +13,7 @@ class UpdateStampRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,13 @@ class UpdateStampRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'station_id' => ['required', 'numeric', 'gt:0'],
+            'company_id' => ['required', 'numeric', 'gt:0'],
+            'name' => ['required', 'string'],
+            'name_eng' => ['nullable', 'string'],
+            'description' => ['nullable', 'string'],
+            'description_eng' => ['nullable', 'string'],
+            'is_approved' => ['required', 'boolean'],
         ];
     }
 }

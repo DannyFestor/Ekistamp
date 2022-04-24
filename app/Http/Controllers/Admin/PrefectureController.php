@@ -13,11 +13,6 @@ use Inertia\Response;
 
 class PrefectureController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
     public function index() : Response
     {
         return Inertia::render('Admin/Prefecture/Index', [
@@ -37,11 +32,6 @@ class PrefectureController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
     public function create()
     {
         return Inertia::render(
@@ -52,13 +42,6 @@ class PrefectureController extends Controller
         );
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return RedirectResponse
-     */
     public function store(StorePrefectureRequest $request)
     {
         $prefecture = Prefecture::create([
@@ -74,13 +57,6 @@ class PrefectureController extends Controller
             ->with('success', 'Prefecture was created');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Models\Prefecture $prefecture
-     *
-     * @return Response
-     */
     public function edit(Prefecture $prefecture)
     {
         return Inertia::render('Admin/Prefecture/Edit', [
@@ -89,14 +65,6 @@ class PrefectureController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Prefecture   $prefecture
-     *
-     * @return RedirectResponse
-     */
     public function update(UpdatePrefectureRequest $request, Prefecture $prefecture)
     {
         $prefecture->fill([
@@ -114,13 +82,6 @@ class PrefectureController extends Controller
             ->with('success', 'Prefecture was edited');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Models\Prefecture $prefecture
-     *
-     * @return RedirectResponse
-     */
     public function destroy(Prefecture $prefecture)
     {
         $prefecture->delete();

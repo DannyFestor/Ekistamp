@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreStationRequest;
 use App\Http\Requests\UpdateStationRequest;
 use App\Models\City;
+use App\Models\LineStation;
 use App\Models\Prefecture;
 use App\Models\Station;
 use App\Models\Street;
@@ -167,6 +168,7 @@ class StationController extends Controller
 
     public function destroy(Station $station)
     {
+        LineStation::where('station_id', '=', $station->id)->delete();
         $station->delete();
 
         return redirect()
