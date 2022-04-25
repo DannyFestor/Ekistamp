@@ -56,24 +56,13 @@
     </button>
   </section>
 
-  <section class="grid grid-cols-1 gap-2">
-    <div
-      @click="open(city.id)"
-      v-for="city in cities.data"
-      :key="city.id"
-      class="grid cursor-pointer grid-cols-2 rounded border-gray-200 p-4 shadow hover:bg-gray-200 md:grid-cols-4"
-    >
-      <div class="text-xl text-green-700">
-        {{ city.prefecture.name }} {{ city.prefecture.romaji }}
-      </div>
-      <div class="text-xl text-green-700">{{ city.name }}</div>
-      <div class="text-xl text-green-700">{{ city.hiragana }}</div>
-      <div class="text-xl text-green-700">{{ city.katakana }}</div>
-      <div class="text-xl capitalize text-green-700">
-        {{ city.romaji }}
-      </div>
-    </div>
-  </section>
+  <Datatable :columns='props.columns'
+             :order-column='orderColumn'
+             :order-direction='orderDirection'
+             :data-points='cities'
+             @set-order='setOrder'
+             @open-url='openUrl'
+  />
 
   <Pagination :links="cities.links" />
 </template>
@@ -89,7 +78,8 @@ export default {
 <script setup>
 import Breadcrump from '../../../Shared/Breadcrump';
 import Pagination from '../../../Shared/Pagination';
-import { ref, watch } from 'vue';
+import Datatable from '../../../Shared/Admin/Table/Datatable';
+import { ref, watch, computed } from 'vue';
 import { debounce } from 'lodash';
 import { Inertia } from '@inertiajs/inertia';
 
@@ -97,30 +87,37 @@ let props = defineProps({
   cities: Object,
   prefectures: Object,
   filters: Object,
+  columns: Object,
 });
 
 let cityName = ref(props.filters.city);
 let prefectureId = ref(props.filters.prefecture);
+let orderColumn = ref(props.filters.order_col);
+let orderDirection = ref(props.filters.order_dir);
+
+const updateData = () => {
+  Inertia.get(
+    route('admin.cities.index'),
+    {
+      city: cityName.value,
+      prefecture: prefectureId.value,
+      order_col: orderColumn.value,
+      order_dir: orderDirection.value,
+    },
+    {
+      only: ['cities'],
+      preserveState: true,
+      replace: true,
+    }
+  );
+}
 
 watch(
   [cityName, prefectureId],
-  debounce(function (values) {
-    Inertia.get(
-      route('admin.cities.index'),
-      {
-        city: values[0],
-        prefecture: values[1],
-      },
-      {
-        only: ['cities'],
-        preserveState: true,
-        replace: true,
-      }
-    );
-  }, 300)
+  debounce(updateData, 300)
 );
 
-let open = (id) => {
+let openUrl = (id) => {
   Inertia.get(
     route('admin.cities.edit', {
       city: id,
@@ -136,4 +133,10 @@ let clearForm = () => {
   prefectureId.value = 0;
   cityName.value = null;
 };
+
+const setOrder = ({ order_col, order_dir }) => {
+  orderColumn.value = order_col.value;
+  orderDirection.value = order_dir.value;
+  updateData();
+}
 </script>

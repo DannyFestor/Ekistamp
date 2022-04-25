@@ -3,7 +3,7 @@
     <div class='flex items-center justify-center gap-4'>
       <slot></slot>
 
-      <span class='inline-flex'>
+      <span v-if='orderable' class='inline-flex'>
           <svg v-if='orderAsc'
                xmlns='http://www.w3.org/2000/svg'
                class='h-4 w-4'
@@ -41,8 +41,12 @@
 
 <script setup>
 defineProps({
+  orderable: Boolean,
   orderAsc: Boolean,
-  orderDesc: Boolean,
+  orderDesc: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 defineEmits(['click']);

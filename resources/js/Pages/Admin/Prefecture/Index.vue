@@ -39,30 +39,17 @@
     </button>
   </section>
 
-  <table class='w-full'>
-    <TableHead>
-      <TableRow>
-        <TableHeaderCell v-for='column in columns'
-                         :key='column.id'
-                         @click='setOrder(column.name)'
-                         :order-asc='orderColumn === column.name && orderDirection === "asc"'
-                         :order-desc='orderColumn === column.name && orderDirection === "desc"'
-                         >
-          {{ column.label }}
-        </TableHeaderCell>
-      </TableRow>
-    </TableHead>
-    <tbody>
-    <TableRow v-for='prefecture in prefectures.data'
-              :key='prefecture.id'
-    >
-      <TableCell>{{ prefecture.name }}</TableCell>
-      <TableCell>{{ prefecture.hiragana }}</TableCell>
-      <TableCell>{{ prefecture.katakana }}</TableCell>
-      <TableCell>{{ prefecture.romaji }}</TableCell>
-    </TableRow>
-    </tbody>
-  </table>
+  <section class='flex flex-end'>
+
+  </section>
+
+  <Datatable :columns='props.columns'
+             :order-column='orderColumn'
+             :order-direction='orderDirection'
+             :data-points='prefectures'
+             @set-order='setOrder'
+             @open-url='openUrl'
+  />
 
   <Pagination :links='prefectures.links' />
 </template>
@@ -78,10 +65,7 @@ export default {
 <script setup>
 import Breadcrump from '../../../Shared/Breadcrump';
 import Pagination from '../../../Shared/Pagination';
-import TableHeaderCell from '../../../Shared/Admin/Table/HeaderCell';
-import TableHead from '../../../Shared/Admin/Table/Head';
-import TableRow from '../../../Shared/Admin/Table/Row';
-import TableCell from '../../../Shared/Admin/Table/Cell';
+import Datatable from '../../../Shared/Admin/Table/Datatable';
 import { ref, watch, computed } from 'vue';
 import { debounce } from 'lodash';
 import { Inertia } from '@inertiajs/inertia';
@@ -92,70 +76,16 @@ let props = defineProps({
   filters: Object,
 });
 
-const columns = computed(() => {
-  return Object.keys(props.columns)
-  .filter(column => {
-    return props.columns[column].hidden === false;
-  })
-  .map((column, idx) => {
-    return {
-      id: idx,
-      name: column,
-      label: props.columns[column].label,
-    }
-  })
-})
-
 let prefectureName = ref(props.filters.prefecture);
 let orderColumn = ref(props.filters.order_col);
 let orderDirection = ref(props.filters.order_dir || 'asc');
 
-watch(
-  prefectureName,
-  debounce(function(value) {
-    Inertia.get(
-      route('admin.prefectures.index'),
-      {
-        prefecture: value,
-        order_col: orderColumn,
-        order_dir: orderDirection,
-      },
-      {
-        preserveState: true,
-        replace: true,
-      },
-    );
-  }, 300),
-);
-
-const flipOrderDirection = () => {
-  if (orderDirection.value === 'asc') {
-    orderDirection.value = 'desc';
-    return;
-  }
-
-  orderDirection.value = 'asc';
-};
-
-const setOrder = (col) => {
-  if (!props.columns && !Object.keys(props.columns).includes(col)) {
-    return;
-  }
-
-  if (orderColumn.value === col) {
-    flipOrderDirection();
-  }
-  else {
-    orderDirection.value = 'asc';
-  }
-
-  orderColumn.value = col;
-
+const updateData = () => {
   Inertia.get(
     route('admin.prefectures.index'),
     {
       prefecture: prefectureName.value,
-      order_col: col,
+      order_col: orderColumn.value,
       order_dir: orderDirection.value,
     },
     {
@@ -163,9 +93,15 @@ const setOrder = (col) => {
       replace: true,
     },
   );
-};
+}
 
-let open = (id) => {
+
+watch(
+  prefectureName,
+  debounce(updateData, 300),
+);
+
+let openUrl = (id) => {
   Inertia.get(
     route('admin.prefectures.edit', {
       prefecture: id,
@@ -173,6 +109,12 @@ let open = (id) => {
     }),
   );
 };
+
+const setOrder = ({ order_col, order_dir }) => {
+  orderColumn.value = order_col.value;
+  orderDirection.value = order_dir.value;
+  updateData();
+}
 
 let clearForm = () => {
   prefectureName.value = null;

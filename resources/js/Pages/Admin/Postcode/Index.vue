@@ -31,7 +31,6 @@
           class="flex-1 rounded border border-gray-400 px-4 py-2 capitalize outline-none focus:border-blue-400"
           id="prefecture_id"
           name="prefecture_id"
-          type="text"
         >
           <option :value="0">---</option>
           <option
@@ -50,7 +49,6 @@
           class="flex-1 rounded border border-gray-400 px-4 py-2 capitalize outline-none focus:border-blue-400"
           id="city_id"
           name="city_id"
-          type="text"
         >
           <option :value="0">---</option>
           <option v-for="city in cities" :key="city.id" :value="city.id">
@@ -77,29 +75,13 @@
     </button>
   </section>
 
-  <section class="grid grid-cols-1 gap-2">
-    <div
-      @click="open(postcode.id)"
-      v-for="postcode in postcodes.data"
-      :key="postcode.id"
-      class="grid cursor-pointer grid-cols-2 rounded border-gray-200 p-4 shadow hover:bg-gray-200 md:grid-cols-4"
-    >
-      <div class="text-xl text-green-700">{{ postcode.postcode }}</div>
-      <div class="text-xl text-green-700">
-        {{ postcode.prefecture.name }} {{ postcode.prefecture.romaji }}
-      </div>
-      <div class="text-xl text-green-700">
-        {{ postcode.city.name }} {{ postcode.city.romaji }}
-      </div>
-      <div
-        class="text-xl text-green-700"
-        v-for="street in postcode.streets"
-        :key="street.id"
-      >
-        {{ street.name }} {{ street.romaji }}
-      </div>
-    </div>
-  </section>
+  <Datatable :columns='props.columns'
+             :order-column='orderColumn'
+             :order-direction='orderDirection'
+             :data-points='postcodes'
+             @set-order='setOrder'
+             @open-url='openUrl'
+  />
 
   <Pagination :links="postcodes.links" />
 </template>
@@ -115,7 +97,8 @@ export default {
 <script setup>
 import Breadcrump from '../../../Shared/Breadcrump';
 import Pagination from '../../../Shared/Pagination';
-import { ref, watch } from 'vue';
+import Datatable from '../../../Shared/Admin/Table/Datatable';
+import { ref, watch, computed } from 'vue';
 import { debounce } from 'lodash';
 import { Inertia } from '@inertiajs/inertia';
 
@@ -124,11 +107,32 @@ let props = defineProps({
   prefectures: Object,
   cities: Object,
   filters: Object,
+  columns: Object,
 });
 
 let postcodeName = ref(props.filters.postcode);
 let cityId = ref(props.filters.city || 0);
 let prefectureId = ref(props.filters.prefecture || 0);
+let orderColumn = ref(props.filters.order_col);
+let orderDirection = ref(props.filters.order_dir);
+
+const updateData = () => {
+  Inertia.get(
+    route('admin.postcodes.index'),
+    {
+      postcode: postcodeName.value,
+      city: cityId.value,
+      prefecture: prefectureId.value,
+      order_col: orderColumn.value,
+      order_dir: orderDirection.value,
+    },
+    {
+      only: ['cities', 'postcodes'],
+      preserveState: true,
+      replace: true,
+    }
+  );
+}
 
 watch(prefectureId, () => {
   cityId.value = 0;
@@ -136,24 +140,10 @@ watch(prefectureId, () => {
 
 watch(
   [postcodeName, cityId, prefectureId],
-  debounce(function (values) {
-    Inertia.get(
-      route('admin.postcodes.index'),
-      {
-        postcode: values[0],
-        city: values[1] > 0 ? values[1] : null,
-        prefecture: values[2] > 0 ? values[2] : null,
-      },
-      {
-        only: ['cities', 'postcodes'],
-        preserveState: true,
-        replace: true,
-      }
-    );
-  }, 300)
+  debounce(updateData, 300)
 );
 
-let open = (id) => {
+const openUrl = (id) => {
   Inertia.get(
     route('admin.postcodes.edit', {
       postcode: id,
@@ -166,9 +156,15 @@ let open = (id) => {
   );
 };
 
-let clearForm = () => {
+const clearForm = () => {
   prefectureId.value = 0;
   cityId.value = 0;
   postcodeName.value = null;
 };
+
+const setOrder = ({ order_col, order_dir }) => {
+  orderColumn.value = order_col.value;
+  orderDirection.value = order_dir.value;
+  updateData();
+}
 </script>

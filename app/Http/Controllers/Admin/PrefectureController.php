@@ -17,11 +17,11 @@ class PrefectureController extends Controller
     public function index() : Response
     {
         $columns = [
-            'id' => ['label' => 'id', 'hidden' => true],
-            'name' => ['label' => '名義 Name Japanese', 'hidden' => false],
-            'hiragana' => ['label' => 'ひらがな Hiragana', 'hidden' => false],
-            'katakana' => ['label' => 'カタカナ Katakana', 'hidden' => false],
-            'romaji' => ['label' => 'ローマ字 Name English', 'hidden' => false],
+            'id' => ['label' => 'id', 'hidden' => true, 'orderable' => true],
+            'name' => ['label' => '名義 Name Japanese', 'hidden' => false, 'orderable' => true],
+            'hiragana' => ['label' => 'ひらがな Hiragana', 'hidden' => false, 'orderable' => true],
+            'katakana' => ['label' => 'カタカナ Katakana', 'hidden' => false, 'orderable' => true],
+            'romaji' => ['label' => 'ローマ字 Name English', 'hidden' => false, 'orderable' => true],
         ];
 
         return Inertia::render('Admin/Prefecture/Index', [
@@ -34,7 +34,11 @@ class PrefectureController extends Controller
                     $query->orWhere('romaji', 'like', "%$search%");
                 })
                 ->when(request()->input('order_col'), function (Builder $query, $value) use ($columns) {
-                    if(!array_key_exists($value, $columns)) {
+                    if(
+                        !array_key_exists($value, $columns) ||
+                        !isset($columns[$value]['orderable']) ||
+                        !$columns[$value]['orderable']
+                    ) {
                         return;
                     }
 
@@ -51,7 +55,7 @@ class PrefectureController extends Controller
                 ->withQueryString()
             ,
             'columns' => $columns,
-            'filters' => request()->only(['prefecture', 'order_col', 'order_dir']),
+            'filters' => request()->only(['prefecture', 'order_col', 'order_dir', 'per_page']),
         ]);
     }
 
